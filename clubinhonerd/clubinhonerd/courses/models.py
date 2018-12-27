@@ -32,13 +32,13 @@ class Course(models.Model):
 	def __str__(self):
 		return self.name
 
-	# é bom criar ele quando um model tiver uma página so pra ele
+	# é bom criar ele quando um model tiver uma página só pra ele / para a url no barra de pesquisa
 	@models.permalink	
 	def get_absolute_url(self):
 		#              url      url nomeada
 		return ('details', (), { 'slug': self.slug })	
 
-	#  nomes dos campos lá no admin
+	#  nomes dos campos lá na página do admin
 	class Meta:
 		verbose_name = 'Curso'
 		verbose_name_plural = 'Cursos'

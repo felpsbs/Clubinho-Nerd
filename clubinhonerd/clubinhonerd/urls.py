@@ -25,8 +25,8 @@ urlpatterns = [
     # path('core/',  include('core.urls')), se estiver fora do clubinhonerd
 ]
 
-# prefixo da aplição --> core/ ou clubinho/ são aplicações
+# prefixo da aplição --> 'core/' ou 'clubinho/' --> são aplicações
 
-# estiver no ambiente de DEBUG
+# Quando estiver no ambiente DEBUG
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -13,8 +13,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # aqui fala o diretorio que deve-se basear
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -37,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # adicionando as aplicações feitas
     'clubinhonerd.core', # apenas se estiver dentro do clubinhonerd
     'clubinhonerd.courses',
 ]
@@ -124,4 +126,20 @@ STATIC_URL = '/static/'
 
 # falando onde serão guardadas as imagens/midias do site
 MEDIA_ROOT = os.path.join(BASE_DIR, 'clubinhonerd', 'media')
+
 MEDIA_URL = '/media/'
+
+
+# E-mails
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# utilizado para desenvolvimento
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'Nome <email@gmail.com>'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'email@gmail.com'
+EMAIL_HOST_PASSWORD = 'senha'
+EMIL_PORT = 587
+
+# exemplo de variável constate para contato
+CONTACT_EMAIL = 'emailparacontato@test.com'
