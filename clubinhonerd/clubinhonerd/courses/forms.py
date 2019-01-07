@@ -1,6 +1,7 @@
 from django import forms
 from django.core.mail import send_mail
 from django.conf import settings
+from clubinhonerd.core.mail import send_mail_templates
 
 class ContactCourse(forms.Form):
 
@@ -11,18 +12,18 @@ class ContactCourse(forms.Form):
 	def send_mail(self, course):
 		subject = '[%s] Contato' % course
 		# forma nomeada de formatar strings
-		message = 'Nome: %(name)s; E-mail: %(email)s; Message%(message)s'
+		# message = 'Nome: %(name)s; E-mail: %(email)s; Message%(message)s'
 		context = {
 			# cleaned_data = dicionário de dados(json) já validados(int,float) para conversão
 			'name': self.cleaned_data['name'],
 			'email': self.cleaned_data['email'],
 			'message': self.cleaned_data['message'],
 		}
-		message = message % context
-		send_mail(
+		template_name = 'courses/contact_email.html'
+		send_mail_templates(
 			subject, 
-			message, 
-			settings.DEFAULT_FROM_EMAIL,
+			template_name, 
+			context,
 			[settings.CONTACT_EMAIL]
 		)
 
