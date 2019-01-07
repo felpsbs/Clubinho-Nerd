@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin', # sistema de usuários
-    'django.contrib.auth',
+    'django.contrib.auth', # aplicação padrão do django para manipular usuários
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # adicionando as aplicações feitas
     'clubinhonerd.core', # apenas se estiver dentro do clubinhonerd
     'clubinhonerd.courses',
+    'clubinhonerd.accounts',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +141,11 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'email@gmail.com'
 EMAIL_HOST_PASSWORD = 'senha'
 EMIL_PORT = 587
-
 # exemplo de variável constate para contato
 CONTACT_EMAIL = 'emailparacontato@test.com'
+
+
+# Auth
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home' # se o login der certo, vai para essa página
+LOGOUT_URL = '/conta/sair'

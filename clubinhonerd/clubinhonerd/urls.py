@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  include('clubinhonerd.core.urls')), # namespace='core' = para indicar as paginas dessa app
-    path('cursos/',  include('clubinhonerd.courses.urls')),
+    path('cursos/', include('clubinhonerd.courses.urls')),
+    path('conta/',  include('clubinhonerd.accounts.urls')),
     # path('core/',  include('core.urls')), se estiver fora do clubinhonerd
 ]
 
