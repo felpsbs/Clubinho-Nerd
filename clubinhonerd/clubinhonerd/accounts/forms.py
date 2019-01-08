@@ -23,3 +23,22 @@ class RegisterForm(UserCreationForm):
 		if commit:
 			user.save()
 		return user
+
+
+class EditAccountForm(forms.ModelForm):
+
+	# também especifica que esse campo será único
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		# busca para ver se o email existe, sem contar o do user atual
+		queryset = User.objects.filter(email=email).exclude(pk=self.instance.pk)
+		if queryset.exists():
+			raise forms.ValidationError('E-mail já em uso.')
+
+		return email
+
+	class Meta:
+		# modelo a ser usado
+		model = User
+		# campos que o user vai poder alterar
+		fields = ['username', 'email', 'first_name', 'last_name']
