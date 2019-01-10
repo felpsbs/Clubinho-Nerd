@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 # para fazer consultadas no BD
@@ -43,6 +44,35 @@ class Course(models.Model):
 		verbose_name = 'Curso'
 		verbose_name_plural = 'Cursos'
 		ordering = ['name']	
+
+
+
+# Inscrição de um user em um curso
+class Enrollment(models.Model):
+
+	STATUS_CHOICES = (
+		(0, 'Pendente'),
+		(1, 'Aprovado'),
+		(2, 'Cancelado'),
+	)
+
+	user = models.ForeignKey(settings.AUTH_USER_MODEL,
+		verbose_name='Usuário', related_name='enrollments', on_delete=models.PROTECT
+	)
+	course = models.ForeignKey(Course, 
+		verbose_name='Course',related_name='enrollments', on_delete=models.PROTECT
+	)
+	# Status da inscrição
+	status = models.IntegerField('Situação', choices=STATUS_CHOICES, default=0, blank=True)
+	create_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	class Meta:
+		verbose_name = 'Inscrição'
+		verbose_name_plural = 'Inscrições'
+		# para evitar repetições no BD
+		unique_together = (('user', 'course'),)
+
 
 
 # ________________BD_____________________
