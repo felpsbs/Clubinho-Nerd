@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Course
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
+from .models import Course, Enrollment
 from .forms import ContactCourse
 
 # A VIEW é utilizada para o que vai ou não ser mostrado na tela
@@ -14,7 +16,7 @@ def index(request):
 
 
 def details(request, slug):
-	course = get_object_or_404(Course, slug = slug)
+	course = get_object_or_404(Course, slug=slug)
 	context = {}
 	if request.method == 'POST':
 		form = ContactCourse(request.POST)
@@ -29,6 +31,22 @@ def details(request, slug):
 	context['form'] = form	
 	template_name = 'courses/details.html'
 	return render(request, template_name, context)
+
+# O user é obrigado a estar logado para ver essa página
+@login_required
+def enrollment(request, slug): # fazer inscrição do user no curso
+	course = get_object_or_404(Course, slug=slug)
+	enrollment, created =  Enrollment.objects.get_or_create(user=request.user,course=course)
+	if created:
+		enrollment.active()
+
+	return redirect('dashboard')
+
+
+
+
+
+
 
 
 
