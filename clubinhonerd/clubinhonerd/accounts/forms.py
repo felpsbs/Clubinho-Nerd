@@ -1,44 +1,45 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+# Para usar o User que nós criamos(CustomUser)
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class RegisterForm(forms.ModelForm):
+
+	password1 = forms.CharField(label='Senha', widget=forms.PasswordInput)
+	password2 = forms.CharField(label='Confirmação de Senha', widget=forms.PasswordInput)
 
 
-class RegisterForm(UserCreationForm):
+	def clean_password2(self):
+		password1 = self.cleaned_data.get('password1')
+		password2 = self.cleaned_data.get('password2')
+		#  (verifica se foram enviadas e se são iguais)
+		if password1 and password2 and password1 != password2:
+			raise forms.ValidationError('A confirmação não está correta')
 
-	email = forms.EmailField(label='E-mail')
+		return password2
 
-	# Para validar/modificar campos especificos(como email) cria-se essa função "clean_nomedocampo"
-	def clean_email(self):
-		email = self.cleaned_data['email']
-
-		if User.objects.filter(email=email).exists():
-			raise forms.ValidationError('E-mail já em uso.')
-
-		return email
 
 	# isso tudo para salvar essa campo email no model
 	def save(self, commit=True):
 		user = super(RegisterForm, self).save(commit=False) # False aqui para nao salvar o user
-		user.email = self.cleaned_data['email'] # valores ja validados e transformados em objeto python
+		user.set_password(self.cleaned_data['password1'])
 		if commit:
 			user.save()
 		return user
 
+	class Meta:
+		# Modelo a ser usado
+		model = User
+		# O que será preciso para o formulário de registro
+		fields = ['username', 'email']
+
 
 class EditAccountForm(forms.ModelForm):
 
-	# também especifica que esse campo será único
-	def clean_email(self):
-		email = self.cleaned_data['email']
-		# busca para ver se o email existe, sem contar o do user atual
-		queryset = User.objects.filter(email=email).exclude(pk=self.instance.pk)
-		if queryset.exists():
-			raise forms.ValidationError('E-mail já em uso.')
-
-		return email
-
 	class Meta:
-		# modelo a ser usado
+		# Modelo a ser usado
 		model = User
-		# campos que o user vai poder alterar
-		fields = ['username', 'email', 'first_name', 'last_name']
+		# O que será preciso para o formulário de editar conta
+		fields = ['username', 'email', 'name']
