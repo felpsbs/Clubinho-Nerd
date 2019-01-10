@@ -3,6 +3,12 @@ from django.contrib.auth.forms import UserCreationForm
 # Para usar o User que nós criamos(CustomUser)
 from django.contrib.auth import get_user_model
 
+from clubinhonerd.core.mail import send_mail_templates
+from clubinhonerd.core.utils import generate_hash_key
+
+from .models import PasswordReset
+
+
 User = get_user_model()
 
 
@@ -16,6 +22,20 @@ class PasswordResetForm(forms.Form):
 			return email
 		else:
 			raise forms.ValidationError('Nenhum usuário encontrado com esse e-mail!')
+
+
+	def save(self):
+		user = User.objects.get(email=self.cleaned_data['email'])
+		key = generate_hash_key(user.username)
+		reset = PasswordReset(key=key, user=user)
+		reset.save()
+		template_name = 'accounts/password_reset_mail.html'
+		subject = 'Criar nova senha no Clubinho Nerd'
+		context = {
+			'reset': reset,
+		}
+		send_mail_templates(subject, template_name, context, [user.email])
+
 
 
 class RegisterForm(forms.ModelForm):

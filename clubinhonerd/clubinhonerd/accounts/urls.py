@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 
@@ -10,6 +10,7 @@ urlpatterns = [
 	path('sair/', auth_views.LogoutView.as_view(next_page='home'),name='logout'),
 	path('cadastre-se/', views.register, name='register'),
 	path('nova-senha/', views.password_reset, name='password_reset'),
+	re_path(r'^confirmar-nova-senha/(?P<key>\w+)/$', views.password_reset_confirm, name='password_reset_confirm'),
 	path('editar/', views.edit, name='edit'),
 	path('editar-senha/', views.edit_password, name='edit_password'),
 ]
