@@ -2,9 +2,11 @@
 
 
 {% block breadcrumb %}
+
 	{{ block.super }} <!-- para usar o que ele ja tinha --> 
 		<li>/</li>
 		<li><a href="{% url 'edit' %}">Editar Conta</a></li>
+		
 {% endblock %}
 
 
@@ -12,9 +14,6 @@
 
 	<form class="pure-form pure-form-stacked" method="post">
 		{% csrf_token %}
-		{% if success %}
-			<p>Os dados foram alterados com sucesso!</p>
-		{% endif%}
 	    <fieldset>
 	    	{{ form.non_field_errors }}
 	    	{% for field in form %}
