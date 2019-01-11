@@ -1,0 +1,1 @@
+Para cada APP, criando um pasta 'templatetags' todos os arquivos presentes poderam ser carregados='load' 

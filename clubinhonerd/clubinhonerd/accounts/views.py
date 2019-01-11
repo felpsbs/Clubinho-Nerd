@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import messages
 
+from clubinhonerd.courses.models import Enrollment
 
 from .forms import RegisterForm, EditAccountForm, PasswordResetForm
 from .models import PasswordReset
@@ -16,12 +17,9 @@ User = get_user_model()
 @login_required # para que apenas usuários logados tenham acesso
 def dashboard(request):
 	template_name = 'accounts/dashboard.html'
-
-	context = {
-
-	}
-
-	return render(request, template_name)
+	context = {}
+	# context['enrollments'] = Enrollment.objects.filter(user=request.user)
+	return render(request, template_name, context)
 
 
 def register(request):
