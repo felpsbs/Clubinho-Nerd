@@ -72,6 +72,10 @@ class Enrollment(models.Model):
 		self.status = 1
 		self.save()
 
+	# Verificando se a inscrição foi aprovada
+	def is_approved(self):
+		return self.status == 1
+
 
 	class Meta:
 		verbose_name = 'Inscrição'
