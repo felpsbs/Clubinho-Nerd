@@ -84,6 +84,48 @@ class Enrollment(models.Model):
 		unique_together = (('user', 'course'),)
 
 
+class Announcement(models.Model):
+	
+	course = models.ForeignKey(Course,
+		verbose_name='Curso', on_delete=models.PROTECT
+	)
+	title = models.CharField('Título', max_length=100)
+	content = models.TextField('Conteúdo')
+	create_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	def __str__(self):
+		return self.title
+
+	class Meta():
+		verbose_name = 'Anúncio'
+		verbose_name_plural = 'Anúncios'
+		# ordenado de forma decrescente
+		ordering = ['-create_at']
+
+
+class Comment(models.Model):
+	
+	announcement = models.ForeignKey(Announcement, 
+		verbose_name='Anúncio',related_name='comments', on_delete=models.PROTECT
+	)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL,
+		verbose_name='Usuário', on_delete=models.PROTECT
+	)
+	comment = models.TextField('Comentário')
+	create_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+
+	class Meta():
+		verbose_name = 'Comentário'
+		verbose_name_plural = 'Comentários'
+		# ordenado de forma crescente
+		ordering = ['create_at']
+		
+
+
+
+
 
 # ________________BD_____________________
 
@@ -93,7 +135,4 @@ class Enrollment(models.Model):
 # Course.object.filter(name__icontains='Python') = ver se o nome contem tal nome
 # Course.object.filter(name__iexact='MAIUSCULO') = ver se o nome contem tal nome
 # Course.delete() = deleta todos
-# Course.create(...) = inserir
-
-
-
+# Course.create(...) - inserir
