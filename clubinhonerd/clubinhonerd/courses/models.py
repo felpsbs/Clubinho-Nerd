@@ -49,6 +49,8 @@ class Course(models.Model):
 
 # Inscrição de um user em um curso
 class Enrollment(models.Model):
+	# related_name = essa classe passa a ter um atributo que irá conter tudo nele
+		# ex: todas as inscrições 	
 
 	STATUS_CHOICES = (
 		(0, 'Pendente'),
@@ -87,7 +89,7 @@ class Enrollment(models.Model):
 class Announcement(models.Model):
 	
 	course = models.ForeignKey(Course,
-		verbose_name='Curso', on_delete=models.PROTECT
+		verbose_name='Curso', related_name='announcements',on_delete=models.PROTECT
 	)
 	title = models.CharField('Título', max_length=100)
 	content = models.TextField('Conteúdo')
