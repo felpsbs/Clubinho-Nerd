@@ -24,7 +24,7 @@ class Course(models.Model):
 	start_date = models.DateField('Data de Início', null=True, blank=True)
 	# concatenado com o diretorio criado no settings / path
 	image = models.ImageField(upload_to='courses/images', verbose_name='Imagem', null=True, blank=True) 
-	create_at = models.DateTimeField('Criado em', auto_now_add=True)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	objects = CourseManager() # um método que eu criei / adicionando ele no objects
@@ -66,7 +66,7 @@ class Enrollment(models.Model):
 	)
 	# Status da inscrição
 	status = models.IntegerField('Situação', choices=STATUS_CHOICES, default=0, blank=True)
-	create_at = models.DateTimeField('Criado em', auto_now_add=True)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	# ativar status do aluno
@@ -93,7 +93,7 @@ class Announcement(models.Model):
 	)
 	title = models.CharField('Título', max_length=100)
 	content = models.TextField('Conteúdo')
-	create_at = models.DateTimeField('Criado em', auto_now_add=True)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	def __str__(self):
@@ -103,7 +103,7 @@ class Announcement(models.Model):
 		verbose_name = 'Anúncio'
 		verbose_name_plural = 'Anúncios'
 		# ordenado de forma decrescente
-		ordering = ['-create_at']
+		ordering = ['-created_at']
 
 
 class Comment(models.Model):
@@ -115,14 +115,14 @@ class Comment(models.Model):
 		verbose_name='Usuário', on_delete=models.PROTECT
 	)
 	comment = models.TextField('Comentário')
-	create_at = models.DateTimeField('Criado em', auto_now_add=True)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
 	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
 	class Meta():
 		verbose_name = 'Comentário'
 		verbose_name_plural = 'Comentários'
 		# ordenado de forma crescente
-		ordering = ['create_at']
+		ordering = ['created_at']
 		
 
 
