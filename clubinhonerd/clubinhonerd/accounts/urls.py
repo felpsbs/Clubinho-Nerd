@@ -4,6 +4,7 @@ from django.conf import settings
 
 from . import views
 
+# app_name = 'accounts'
 urlpatterns = [ 
 	path('', views.dashboard, name='dashboard'),
 	path('entrar/', auth_views.LoginView.as_view(template_name='accounts/login.html'),name='login'),

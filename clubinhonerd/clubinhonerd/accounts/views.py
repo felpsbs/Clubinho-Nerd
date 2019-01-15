@@ -74,14 +74,12 @@ def password_reset_confirm(request, key):
 def edit(request):
 	template_name = 'accounts/edit.html'
 	context = {}
-	if request.method == 'POST': 			# o usuário atual será modificado
+	if request.method == 'POST':# o usuário atual será modificado
 		form = EditAccountForm(request.POST, instance=request.user)
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Os dados da sua conta foram alterados com sucesso')
 			return redirect('dashboard')
-			# form = EditAccountForm(instance=request.user)
-			# context['success'] = True	
 	else:
 		form = EditAccountForm(instance = request.user)
 	
@@ -101,7 +99,6 @@ def edit_password(request):
 			context['success'] = True
 	else:
 		form = PasswordChangeForm(user=request.user)
-
+		
 	context['form'] = form
-
 	return render(request, template_name, context)

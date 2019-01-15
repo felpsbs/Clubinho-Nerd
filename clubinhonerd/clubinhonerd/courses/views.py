@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .models import Course, Enrollment, Announcement
-from .forms import ContactCourse
+from .forms import ContactCourse, CommentForm
 
 # A VIEW é utilizada para o que vai ou não ser mostrado na tela
 
@@ -11,7 +11,7 @@ def index(request):
 	courses = Course.objects.all()
 	template_name = 'courses/index.html'
 	context = {
-		'courses' : courses
+		'courses' : courses,
 	}
 	return render(request, template_name, context)
 
@@ -101,11 +101,21 @@ def show_announcement(request, slug, pk):
 			messages.error(request, 'Sua inscrição está pendente.')
 			return redirect('dashboard')
 
-	template_name = 'courses/show_announcement.html'
 	announcement = get_object_or_404(course.announcements.all(), pk=pk)
+	form = CommentForm(request.POST or None)
+	if form.is_valid():
+		comment = form.save(commit=False)
+		comment.user = request.user
+		comment.announcement = announcement
+		comment.save()
+		form = CommentForm()
+		messages.success(request, 'Seu comentário foi enviado com sucesso.')
+	
+	template_name = 'courses/show_announcement.html'
 	context = {
 		'course': course,
-		'announcement': announcement
+		'announcement': announcement,
+		'form': form,
 	}
 	return render(request, template_name, context)
 

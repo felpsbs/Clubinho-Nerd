@@ -1,5 +1,15 @@
 {% extends "courses/course_dashboard.html" %}
 
+
+{% block breadcrumb %}
+
+	{{ block.super }} <!-- para usar o que ele ja tinha --> 
+		<li>/</li>
+		<li><a href="{% url 'show_announcement' course.slug announcement.pk %}">{{ announcement }}</a></li>
+		
+{% endblock %}
+,
+
 <!-- bloco do 'dashboard_content' e não de course_dashboard=herança de herança-->
 {% block dashboard_content %}
 	<div class="well">
@@ -20,12 +30,15 @@
 	        	<p>Nenhum comentário para este anúncio.</p>
 	    {% endfor %}
 	    <form method="post" class="pure-form pure-form-stacked" id="add_comment">
+	    	{% csrf_token %}
 	        <fieldset>
-	            <div class="pure-control-group">
-	                <label for="password">Comentário</label>
-	                <textarea cols="40" rows="4"></textarea>
-	            </div>
-
+	        	{% for field in form %}
+		            <div class="pure-control-group">
+		                {{ field.label_tag }} 
+		                {{ field }}
+						{{ field.errors }}
+		            </div>
+	            {% endfor %}
 	            <div class="pure-controls">
 	                <button type="submit" class="pure-button pure-button-primary">Enviar</button>
 	            </div>

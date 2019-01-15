@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from clubinhonerd.core.mail import send_mail_templates
 
+from .models import Comment
+
 class ContactCourse(forms.Form):
 
 	name = forms.CharField(label='Nome', max_length=100)
@@ -35,3 +37,12 @@ class ContactCourse(forms.Form):
 		#     ['to@example.com'],
 		#     fail_silently=False,
 		# )
+
+# O ModelForm tem o método save()
+class CommentForm(forms.ModelForm):
+	
+	class Meta():
+		# modelo base
+		model = Comment
+		# Campos a serem exibidos
+		fields = ['comment']
