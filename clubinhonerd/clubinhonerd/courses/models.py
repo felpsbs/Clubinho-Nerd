@@ -47,6 +47,57 @@ class Course(models.Model):
 		ordering = ['name']	
 
 
+# Modelo da aula em si, não armazenando conteúdo
+class Lesson(models.Model):
+
+	name = models.CharField('Nome', max_length=100)
+	description = models.TextField('Descrição', blank=True)
+	# para ordenar as aulas
+	number = models.IntegerField('Número(ordem)', blank=True, default=0)
+	release_date = models.DateField('Data de liberação', blank=True, null=True)
+
+	# Relacionando com um curso
+	course = models.ForeignKey(Course, 
+		verbose_name='Curso', related_name='lessons', on_delete=models.PROTECT
+	)
+	created_at = models.DateTimeField('Criado em', auto_now_add=True)
+	updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+	
+	def __str__(self):
+		return self.name
+
+	class Meta():
+		verbose_name = 'Aula'
+		verbose_name_plural = 'Aulas'
+		ordering = ['number']
+
+
+# Materiais da aula
+class Material(models.Model):
+	
+	name = models.CharField('Nome', max_length=100)
+	# para conteúdo multimídia
+	embedded = models.TextField('Vídeo Embedded', blank=True)
+	# Por enquanto será público
+	file = models.FileField(upload_to='lessons/materials', blank=True)
+
+	# Conectando com uma Lesson
+	lesson = models.ForeignKey(Lesson,
+		verbose_name='Aula', related_name='materials', on_delete=models.PROTECT
+	)
+
+	def is_embedded(self):
+		return bool(self.embedded)
+
+	def __str__(self):
+		return self.name
+
+	class Meta():
+
+		verbose_name = 'Material'
+		verbose_name_plural = 'Materiais'
+
+
 
 # Inscrição de um user em um curso
 class Enrollment(models.Model):
@@ -144,7 +195,6 @@ def post_save_announcement(instance, created,**kwargs):
 # sender = quem irá envia-lo
 # para saber se essa função já foi cadastrada, é um identificador
 models.signals.post_save.connect(post_save_announcement, sender=Announcement, dispatch_uid='post_save_announcement')
-
 
 
 # ________________BD_____________________
