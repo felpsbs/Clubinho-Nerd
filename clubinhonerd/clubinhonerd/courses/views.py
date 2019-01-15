@@ -4,7 +4,7 @@ from django.contrib import messages
 
 from .models import Course, Enrollment, Announcement
 from .forms import ContactCourse, CommentForm
-
+from .decorators import enrollment_required
 # A VIEW é utilizada para o que vai ou não ser mostrado na tela
 
 def index(request):
@@ -70,16 +70,10 @@ def undo_enrollment(request, slug):
 
 
 @login_required
+@enrollment_required
 def announcements(request, slug):
-	# Pegando o curso
-	course = get_object_or_404(Course, slug=slug)
-	# Verificando se o user é parte do admin
-	if not request.user.is_staff: 
-		# Verificando se o user está inscrito no curso
-		enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
-		if not enrollment.is_approved():
-			messages.error(request, 'Sua inscrição está pendente.')
-			return redirect('dashboard')
+	# Pegando o curso direto da request, que foi colocado pelo decorator
+	course = request.course
 
 	template_name = 'courses/announcements.html'
 	context = {
@@ -89,17 +83,11 @@ def announcements(request, slug):
 	return render(request, template_name, context)
 
 @login_required
+@enrollment_required
 def show_announcement(request, slug, pk):
 	# pk = chave primária do anúncio
-	# Pegando o curso
-	course = get_object_or_404(Course, slug=slug)
-	# Verificando se o user é parte do admin
-	if not request.user.is_staff: 
-		# Verificando se o user está inscrito no curso
-		enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
-		if not enrollment.is_approved():
-			messages.error(request, 'Sua inscrição está pendente.')
-			return redirect('dashboard')
+	# Pegando o curso direto da request, que foi colocado pelo decorator
+	course = request.course
 
 	announcement = get_object_or_404(course.announcements.all(), pk=pk)
 	form = CommentForm(request.POST or None)
@@ -119,7 +107,9 @@ def show_announcement(request, slug, pk):
 	}
 	return render(request, template_name, context)
 
-
+@login_required
+def function():
+	pass
 
 
 # para ir pelo id do curso
@@ -131,3 +121,14 @@ def show_announcement(request, slug, pk):
 # 	}
 # 	template_name = 'courses/details.html'
 # 	return render(request, template_name, context)
+
+# lógica do decorator
+	# # Pegando o curso
+	# 	course = get_object_or_404(Course, slug=slug)
+	# 	# Verificando se o user é parte do admin
+	# 	if not request.user.is_staff: 
+	# 		# Verificando se o user está inscrito no curso
+	# 		enrollment = get_object_or_404(Enrollment, user=request.user, course=course)
+	# 		if not enrollment.is_approved():
+	# 			messages.error(request, 'Sua inscrição está pendente.')
+	# 			return redirect('dashboard')
