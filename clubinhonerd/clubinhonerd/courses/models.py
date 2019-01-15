@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 from clubinhonerd.core.mail import send_mail_templates
 
@@ -40,6 +41,12 @@ class Course(models.Model):
 		#              url      url nomeada
 		return ('details', (), { 'slug': self.slug })	
 
+
+	def release_lessons(self):
+		today = timezone.now().date()
+		# gte = greater than
+		return self.lessons.filter(release_date__gte=today)
+
 	#  nomes dos campos lá na página do admin
 	class Meta:
 		verbose_name = 'Curso'
@@ -65,6 +72,14 @@ class Lesson(models.Model):
 	
 	def __str__(self):
 		return self.name
+
+	# verificar se a aula está liberada
+	def is_available(self):
+		if self.release_date:
+			today = timezone.now().date()
+			return self.release_date >= today
+		return False
+
 
 	class Meta():
 		verbose_name = 'Aula'
