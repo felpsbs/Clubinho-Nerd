@@ -1,5 +1,15 @@
 {% extends "courses/course_dashboard.html" %}
 
+
+{% block breadcrumb %}
+
+	{{ block.super }} <!-- para usar o que ele ja tinha --> 
+		<li>/</li>
+		<li><a href="{% url 'lessons' course.slug %}">Aulas</a></li>
+		
+{% endblock %}
+
+
 <!-- bloco do 'dashboard_content' e não de course_dashboard=herança de herança-->
 {% block dashboard_content %}
 
