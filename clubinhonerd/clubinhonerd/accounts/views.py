@@ -32,7 +32,7 @@ def register(request):
 			user = form.save()
 			user = authenticate(username=user.username, password=form.cleaned_data['password1'])
 			login(request, user)
-			return redirect('home')
+			return redirect('core:home')
 	else:	 
 		form = RegisterForm() 
 
@@ -79,7 +79,7 @@ def edit(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Os dados da sua conta foram alterados com sucesso')
-			return redirect('dashboard')
+			return redirect('accounts:dashboard')
 	else:
 		form = EditAccountForm(instance = request.user)
 	

@@ -136,8 +136,8 @@ CONTACT_EMAIL = 'emailparacontato@test.com'
 
 
 # Auth
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home' # se o login der certo, vai para essa página
-LOGOUT_URL = 'logout'
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'core:home' # se o login der certo, vai para essa página
+LOGOUT_URL = 'accounts:logout'
 # Para o django saber qual model de usuário usar
 AUTH_USER_MODEL = 'accounts.User'

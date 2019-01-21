@@ -45,7 +45,7 @@ def enrollment(request, slug): # fazer inscrição do user no curso
 		# messages também possui para errors
 		messages.info(request, 'Você já está inscrito no curso.')
 
-	return redirect('dashboard')
+	return redirect('accounts:dashboard')
 
 
 # Se desinscrever de um curso
@@ -59,7 +59,7 @@ def undo_enrollment(request, slug):
 	if request.method == 'POST':
 		enrollment.delete()
 		messages.success(request, 'Sua inscrição foi cancelada com sucesso')
-		return redirect('dashboard')
+		return redirect('accounts:dashboard')
 
 	template_name = 'courses/undo_enrollment.html'
 	context = {

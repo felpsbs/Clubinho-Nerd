@@ -1,3 +1,3 @@
+from django.core import mail
 from django.test import TestCase
-
-# Create your tests here.
+from django.test.client import Client

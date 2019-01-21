@@ -10,7 +10,7 @@
         <div class="pure-u-1">
             <ul class="breadcrumb">
             	{% block breadcrumb %}
-                	<li><a href="{% url 'dashboard' %}">Meu Painel</a></li>
+                	<li><a href="{% url 'accounts:dashboard' %}">Meu Painel</a></li>
             	{% endblock %}
             </ul>
         </div>
@@ -33,10 +33,10 @@
 							{% endfor %} 	
 		                <li class="pure-menu-heading">Configurações de Conta</li>
 		                <li>
-		                	<a href="{% url 'edit' %}"><i class="fa fa-cog"></i>Editar Informações</a>
+		                	<a href="{% url 'accounts:edit' %}"><i class="fa fa-cog"></i>Editar Informações</a>
 		                </li>
 		                <li>
-		                	<a href="{% url 'edit_password' %}"><i class="fa fa-lock"></i>Editar Senha</a>
+		                	<a href="{% url 'accounts:edit_password' %}"><i class="fa fa-lock"></i>Editar Senha</a>
 		                </li>
 	                {% endblock %}
 	            </ul>
