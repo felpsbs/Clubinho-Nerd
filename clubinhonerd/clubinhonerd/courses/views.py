@@ -150,8 +150,8 @@ def material(request, slug, pk):
 	lesson = material.lesson
 	if not request.user.is_staff and not lesson.is_available():
 		messages.error(request, 'Esse material não está disponível')
-		return redirect('lesson', slug=request.slug, pk=lesson.pk)
-	if material.is_embedded():
+		return redirect('lesson', slug=course.slug, pk=lesson.pk)
+	if not material.is_embedded():
 		return redirect(material.file.url)
 
 	template_name = 'courses/material.html'
