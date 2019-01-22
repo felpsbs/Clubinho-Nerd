@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse
 
 from clubinhonerd.core.mail import send_mail_templates
 
@@ -35,11 +36,10 @@ class Course(models.Model):
 	def __str__(self):
 		return self.name
 
-	# é bom criar ele quando um model tiver uma página só pra ele / para a url no barra de pesquisa
-	@models.permalink	
+	# é bom criar ele quando um model tiver uma página só pra ele / para a url no barra de pesquisa	
 	def get_absolute_url(self):
 		#              url      url nomeada
-		return ('details', (), { 'slug': self.slug })	
+		return reverse('details', kwargs={ 'slug': self.slug })	
 
 
 	def release_lessons(self):
