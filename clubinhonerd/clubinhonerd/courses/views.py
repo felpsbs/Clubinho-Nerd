@@ -130,7 +130,7 @@ def lesson(request, slug, pk):
 	lesson = get_object_or_404(Lesson, pk=pk, course=course)
 	if not request.user.is_staff and not lesson.is_available():
 		messages.error(request, 'Está aula não está disponível')
-		return redirect('lessons', slug=request.slug)
+		return redirect('courses:lessons', slug=request.slug)
 
 	template_name = 'courses/lesson.html'
 	context = {
@@ -150,7 +150,7 @@ def material(request, slug, pk):
 	lesson = material.lesson
 	if not request.user.is_staff and not lesson.is_available():
 		messages.error(request, 'Esse material não está disponível')
-		return redirect('lesson', slug=course.slug, pk=lesson.pk)
+		return redirect('courses:lesson', slug=course.slug, pk=lesson.pk)
 	if not material.is_embedded():
 		return redirect(material.file.url)
 

@@ -6,7 +6,7 @@
 
 	{{ block.super }} <!-- para usar o que ele ja tinha --> 
 		<li>/</li>
-		<li><a href="{% url 'announcements' course.slug %}">{{ course }}</a></li>
+		<li><a href="{% url 'courses:announcements' course.slug %}">{{ course }}</a></li>
 		
 {% endblock %}
 
@@ -16,7 +16,7 @@
         {{ course }}
     </li>
     <li>
-        <a href="{% url 'lessons' course.slug %}">
+        <a href="{% url 'courses:lessons' course.slug %}">
         	<!-- fa=nome da classe, depois 'fa-nomedoícone' -->
             <i class="fa fa-video-camera"></i>
             Aulas e Materiais
@@ -29,7 +29,7 @@
         </a>
     </li>
     <li>
-        <a href="{% url 'announcements' course.slug %}">
+        <a href="{% url 'courses:announcements' course.slug %}">
             <i class="fa fa-envelope"></i>
             Anúncios
         </a>

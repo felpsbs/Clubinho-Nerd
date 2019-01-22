@@ -5,7 +5,7 @@
 
 	{{ block.super }} <!-- para usar o que ele ja tinha --> 
 		<li>/</li>
-		<li><a href="{% url 'show_announcement' course.slug announcement.pk %}">{{ announcement }}</a></li>
+		<li><a href="{% url 'courses:show_announcement' course.slug announcement.pk %}">{{ announcement }}</a></li>
 		
 {% endblock %}
 ,

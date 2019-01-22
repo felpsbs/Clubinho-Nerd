@@ -24,7 +24,7 @@
 		            	<li class="pure-menu-heading">Cursos</li>
 							{% for enrollment in enrollments %}
 								<li>
-									<a href="{% url 'announcements' enrollment.course.slug %}"><i class="fa fa-book"></i>
+									<a href="{% url 'courses:announcements' enrollment.course.slug %}"><i class="fa fa-book"></i>
 										{{ enrollment.course }}
 									</a>
 								</li> 
@@ -51,8 +51,8 @@
 		                    <h3>{{ enrollment.course }} ({{ enrollment.course.start_date|date:'d/m/Y'|default:'Não informado' }})</h3>
 		                    {{ enrollment.course.description|linebreaks }}
 		                    <div class="pure-controls">
-		                        <a href="{% url 'announcements' enrollment.course.slug %}" class="pure-button pure-button-primary">Acessar</a>
-		                        <a href="{% url 'undo_enrollment' enrollment.course.slug %}" class="pure-button pure-button-error">Cancelar Inscrição</a>
+		                        <a href="{% url 'courses:announcements' enrollment.course.slug %}" class="pure-button pure-button-primary">Acessar</a>
+		                        <a href="{% url 'courses:undo_enrollment' enrollment.course.slug %}" class="pure-button pure-button-error">Cancelar Inscrição</a>
 		                    </div>
 		                </div>
 		                {% empty %}

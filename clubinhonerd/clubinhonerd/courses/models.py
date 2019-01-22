@@ -39,7 +39,7 @@ class Course(models.Model):
 	# é bom criar ele quando um model tiver uma página só pra ele / para a url no barra de pesquisa	
 	def get_absolute_url(self):
 		#              url      url nomeada
-		return reverse('details', kwargs={ 'slug': self.slug })	
+		return reverse('courses:details', kwargs={ 'slug': self.slug })	
 
 
 	def release_lessons(self):
