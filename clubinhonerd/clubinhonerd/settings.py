@@ -29,7 +29,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # adicionando as aplicações feitas
+    
+    # Libs
+    'taggit',
+
+    # Apps
     'clubinhonerd.core', # apenas se estiver dentro do clubinhonerd
     'clubinhonerd.courses',
     'clubinhonerd.accounts',
