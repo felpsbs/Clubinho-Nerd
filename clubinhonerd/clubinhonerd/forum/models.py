@@ -5,7 +5,7 @@ from django.conf import settings
 from clubinhonerd.core.models import BaseModel
 
 # Um tópico do fórum
-class Thread(BaseModel):
+class Thread(models.Model):
 
 	title = models.CharField('Título', max_length=100)
 	body = models.TextField('Mensagem')
@@ -16,8 +16,8 @@ class Thread(BaseModel):
 	answers = models.IntegerField('Respostas', blank=True, default=0)
 	tags = TaggableManager()
 
-	# created = models.DateTimeField('Criado em', auto_now_add=True)
-	# modified = models.DateTimeField('Atualizado em', auto_now=True)
+	created = models.DateTimeField('Criado em', auto_now_add=True)
+	modified = models.DateTimeField('Atualizado em', auto_now=True)
 	
 	def __str__(self):
 		return self.title
@@ -28,16 +28,19 @@ class Thread(BaseModel):
 		ordering = ['-modified']
 
 
-class Reply(BaseModel):
+class Reply(models.Model):
 
+	thread = models.ForeignKey(Thread,
+		verbose_name='Tópico', related_name='replies', on_delete=models.PROTECT
+	)
 	reply = models.TextField('Resposta')
 	author = models.ForeignKey(settings.AUTH_USER_MODEL,
 		verbose_name='Autor', related_name='replies', on_delete=models.PROTECT
 	)
 
 	correct = models.BooleanField('Correta?', blank=True, default=False)
-	# created = models.DateTimeField('Criado em', auto_now_add=True)
-	# modified = models.DateTimeField('Atualizado em', auto_now=True)
+	created = models.DateTimeField('Criado em', auto_now_add=True)
+	modified = models.DateTimeField('Atualizado em', auto_now=True)
 	
 	def __str__(self):
 		# voltar apenas os 100 primeiros caracteres

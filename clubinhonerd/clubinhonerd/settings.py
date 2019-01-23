@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'clubinhonerd.core', # apenas se estiver dentro do clubinhonerd
     'clubinhonerd.courses',
     'clubinhonerd.accounts',
+    'clubinhonerd.forum',
 ]
 
 MIDDLEWARE = [

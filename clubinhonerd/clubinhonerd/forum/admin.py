@@ -1,3 +1,22 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Thread, Reply
+
+
+class ThreadAdmin(admin.ModelAdmin):
+
+	list_display = ['title', 'author', 'created', 'modified']
+	# __ = para acessar um atriobuto de uma foreign key
+	search_fields = ['title', 'author__email', 'body']
+
+
+class ReplyAdmin(admin.ModelAdmin):
+	
+	list_display = ['thread', 'author', 'created', 'modified']
+	# __ = para acessar um atriobuto de uma foreign key
+	search_fields = ['thread__title', 'author__email', 'reply']
+	
+
+
+admin.site.register(Thread, ThreadAdmin)
+admin.site.register(Reply, ReplyAdmin)
