@@ -4,7 +4,7 @@ from django.test.client import Client
 from django.urls import reverse
 from django.conf import settings
 
-from .models import Course
+from clubinhonerd.courses.models import Course
 
 class ContactCourseTestCase(TestCase):
 
@@ -19,7 +19,7 @@ class ContactCourseTestCase(TestCase):
 	def test_contact_form_error(self):
 		data = {'name':'Fulano de Tal', 'email':'', 'message':''}
 		client = Client()		
-		path = reverse('details', args=[self.course.slug])
+		path = reverse('courses:details', args=[self.course.slug])
 		response = client.post(path, data)
 		# Verificar erro no campo email
 		self.assertFormError(response, 'form', 'email', 'Este campo é obrigatório.')
@@ -29,7 +29,7 @@ class ContactCourseTestCase(TestCase):
 	def test_contact_form_success(self):
 		data = {'name':'Fulano de Tal', 'email':'admin@admin.com', 'message':'Testando'}
 		client = Client()		
-		path = reverse('details', args=[self.course.slug])
+		path = reverse('courses:details', args=[self.course.slug])
 		response = client.post(path, data)
 		# Verificando se um email foi enviado
 		self.assertEqual(len(mail.outbox), 1)
