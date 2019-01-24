@@ -318,7 +318,7 @@ aside a, aside a:visited {
 }
 
 .pagination .active a {
-  color: #999999;
+  color: #ff0000;
   cursor: default;
 }
 
