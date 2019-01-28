@@ -6,6 +6,7 @@ class CourseAdmin(admin.ModelAdmin):
 	
 	list_display = ['name', 'slug', 'start_date', 'created_at']
 	search_fields = ['name', 'slug']
+	# popula o campo 'slug'separado com '-' tendo como base o 'name'
 	prepopulated_fields = {'slug': ('name',)}
 
 

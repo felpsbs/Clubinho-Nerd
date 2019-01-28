@@ -1,6 +1,7 @@
 from django.db import models
 from taggit.managers import TaggableManager
 from django.conf import settings
+from django.urls import reverse
 
 from clubinhonerd.core.models import BaseModel
 
@@ -8,6 +9,7 @@ from clubinhonerd.core.models import BaseModel
 class Thread(models.Model):
 
 	title = models.CharField('Título', max_length=100)
+	slug = models.SlugField('Identificador', max_length=100, unique=True)
 	body = models.TextField('Mensagem')
 	author = models.ForeignKey(settings.AUTH_USER_MODEL,
 		verbose_name='Autor', related_name='threads', on_delete=models.PROTECT
@@ -21,6 +23,10 @@ class Thread(models.Model):
 	
 	def __str__(self):
 		return self.title
+
+	def get_absolute_url(self):	
+		return reverse('forum:thread', kwargs={ 'slug': self.slug })	
+ 
 
 	class Meta():
 		verbose_name = 'Tópico'

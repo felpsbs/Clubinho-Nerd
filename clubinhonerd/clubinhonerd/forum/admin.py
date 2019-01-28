@@ -8,7 +8,8 @@ class ThreadAdmin(admin.ModelAdmin):
 	list_display = ['title', 'author', 'created', 'modified']
 	# __ = para acessar um atriobuto de uma foreign key
 	search_fields = ['title', 'author__email', 'body']
-
+	# popula o campo 'slug'separado com '-' tendo como base o 'title'
+	prepopulated_fields = {'slug': ('title',)}
 
 class ReplyAdmin(admin.ModelAdmin):
 	
