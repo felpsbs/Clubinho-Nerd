@@ -318,7 +318,7 @@ aside a, aside a:visited {
 }
 
 .pagination .active a {
-  color: #ff0000;
+  color: #999999;
   cursor: default;
 }
 
@@ -361,4 +361,13 @@ aside a, aside a:visited {
 }
 .text-left {
   text-align: left;
+}
+.label-success{
+  background-color: #5aba59;
+  color: #fff;
+  margin: 0 0.1em;
+  padding: 0.3em 1em;
+}
+.hidden {
+  display: none;
 }
