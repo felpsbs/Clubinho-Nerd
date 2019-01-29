@@ -66,7 +66,7 @@
                         <a class="fright" href="#">Criado à {{ object.created|timesince }} atrás</a>
                     </p>
                 </div>
-                <div class="well">
+                <div class="well" id="div-comments">
                     <h4 id="comments">Respostas
                         <a class="fright" href="#add_comment">Responder</a>
                     </h4>
@@ -77,17 +77,42 @@
                             <br />
                             {{ reply.reply|linebreaksbr }}                            
                             <br />
-                            {% if reply.correct %}                                
-                                <br />
-                                {% if reply.author == user %}
-                                    <a href="{% url 'forum:reply_incorrect' reply.pk %}" class="pure-button button-error">Cancelar resposta correta</a>
-                                {% endif %}
-                                <span class="fright label-success">resposta indicada pelo autor</span>
-                                <br />
-                            {% elif reply.author == user %}
+                            {% if object.author == user %}                                
                                 <br />
                                 
-                                <a href="{% url 'forum:reply_correct' reply.pk %}" class="pure-button button-success"> Resposta correta</a>
+                                <a href="{% url 'forum:reply_incorrect' reply.pk %}" class="pure-button button-error reply-cancel-correct-lnk
+                                    {% if not reply.correct %}
+                                        hidden
+                                    {% endif %}">
+                                    Cancelar resposta correta
+                                </a>                                
+                                
+
+                                <a href="{% url 'forum:reply_correct' reply.pk %}" class="pure-button button-success reply-correct-lnk
+                                    {% if reply.correct %}
+                                        hidden
+                                    {% endif %}">
+                                    Resposta correta
+                                </a>
+
+
+                                <span class="fright label-success reply-correct-msg
+                                    {% if not reply.correct %} 
+                                        hidden 
+                                    {% endif %}">
+                                    resposta indicada pelo autor
+                                </span>
+
+                                <br class="reply-correct-msg
+                                    {% if not reply.correct %}
+                                        hidden 
+                                    {% endif %}" 
+                                />
+
+
+                            {% elif reply.correct %}                                
+                                <span class="fright label-success">resposta indicada pelo autor</span>                                
+                                <br />
                             {% endif %}
                         </p>
                     {% endfor %}
@@ -113,3 +138,80 @@
     </div>
 
 {% endblock %}
+
+{% block scripts %}
+
+    <script type="text/javascript">
+        /*
+            Pegando todos os elementos que possuem isso na classe 'reply-cancel-correct-link'
+            on = associar um evento a uma função
+            Para cancelar uma resposta correta
+        */
+        $('.reply-cancel-correct-lnk').on('click', function(e) {
+            /* 
+                Para depois o envento ser cancelado 'return false' ou e.preventDefault();
+                e.preventDefault();
+            */
+            var $this = $(this);
+            // pegando o <p> mais próximo
+            var $p = $this.closest("p");
+            $.get($this.attr('href'), function(data) {
+                if(data.success) {
+                    // Tornando os campos dessa classe hidden
+                    $p.find('.reply-correct-msg').addClass('hidden');
+                    $this.addClass('hidden');
+                    $p.find('.reply-correct-lnk').removeClass('hidden');
+                } else {
+                    alert(data.message);
+                }
+            }, 'json');
+           
+            return false;
+        });
+
+        // Para marcar uma resposta como correta
+        $('.reply-correct-lnk').on('click', function(e) {
+            /*
+                e.preventDefault();
+                'this' = elemento atual 'reply-correct-msg'
+            */
+            var $this = $(this);
+            // pegando o <p> mais próximo
+            var $p = $this.closest("p");    
+            $.get($this.attr('href'), function(data) {
+                if(data.success) {
+                    // Nas respostas corretas anteriores <span> e <br>
+                    $("#div-comments .reply-correct-msg").addClass("hidden");
+                    $("#div-comments .reply-cancel-correct-lnk").addClass("hidden");
+                    $("#div-comments .reply-correct-lnk").removeClass("hidden");
+                    // Tornando os campos dessa classe hidden
+                    $p.find('.reply-correct-msg').removeClass('hidden');                   
+                    $this.addClass('hidden');
+                    $p.find('.reply-cancel-correct-lnk').removeClass('hidden');
+                } else {
+                    alert(data.message);
+                }
+            }, 'json');
+
+            return false;
+        })
+
+    </script>
+
+{% endblock %}
+
+<!-- 
+{% if reply.correct %}                                
+    <br />
+    {% if reply.author == user %}
+        <a href="{% url 'forum:reply_incorrect' reply.pk %}" class="pure-button button-error">Cancelar resposta correta</a>
+    {% endif %}
+    <span class="fright label-success">resposta indicada pelo autor</span>
+    <br />
+{% elif reply.author == user %}
+    <br />
+    
+    <a href="{% url 'forum:reply_correct' reply.pk %}" class="pure-button button-success"> Resposta correta</a>
+{% endif %}
+
+ -->
