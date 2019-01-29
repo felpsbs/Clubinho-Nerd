@@ -57,3 +57,23 @@ class Reply(models.Model):
 		verbose_name_plural = 'Respostas'
 		# O 'true' é considerado maior que o 'false', por isso o '-'
 		ordering = ['-correct', '-created']
+
+
+# Para contar as respostas de uma Thread
+def post_save_reply(created, instance, **kwargs):
+	instance.thread.answers = instance.thread.replies.count()
+	instance.thread.save()
+
+def post_delete_reply(instance, **kwargs):
+	instance.thread.answers = instance.thread.replies.count()
+	instance.thread.save()
+
+
+# Apenas o model Reply dispara esse sinal
+models.signals.post_save.connect(
+	post_save_reply, sender=Reply, dispatch_uid='post_save_reply'
+)
+# Apenas o model Reply dispara esse sinal
+models.signals.post_delete.connect(
+	post_delete_reply, sender=Reply, dispatch_uid='post_delete_reply'
+)
