@@ -9,9 +9,10 @@ class CourseAdmin(admin.ModelAdmin):
 	# popula o campo 'slug'separado com '-' tendo como base o 'name'
 	prepopulated_fields = {'slug': ('name',)}
 
-
-# Cadastrar os materiais de uma só vez, um ou mais models, inline
-# admin.TabularInline = campos ficam um do lado do outro
+"""
+Cadastrar os materiais de uma só vez, um ou mais models, inline
+admin.TabularInline = campos ficam um do lado do outro
+"""
 class MaterialInlineAdmin(admin.StackedInline):
 		
 		model = Material

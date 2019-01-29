@@ -70,17 +70,25 @@
                     <h4 id="comments">Respostas
                         <a class="fright" href="#add_comment">Responder</a>
                     </h4>
-                    <hr />
-                    <p>
-                        <strong>Fulano</strong> disse à 3 dias atras:                    
-                    </p>
+                    {% for reply in object.replies.all %}
+                        <hr />
+                        <!-- Semelhante ap ' |linebreaks ' -->
+                        {% filter linebreaks %}                            
+                            <strong>{{ reply.author }}</strong> disse à {{ reply.created|timesince }} atrás:
+                            {{ reply.reply }}
+                        {% endfilter %}    
+                    {% endfor %}
                     <hr />
                     <form method="post" class="pure-form pure-form-stacked" id="add_comment">
                         <fieldset>
-                            <div class="pure-control-group">
-                                <label for="reply">Responder</label>
-                                <textarea name="reply" cols="40" rows="4"></textarea>
-                            </div>
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="pure-control-group">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% endfor %}                       
                             <div class="pure-controls">
                                 <button type="submit" class="pure-button pure-button-primary">Enviar</button>
                             </div>
