@@ -58,11 +58,15 @@ class Reply(models.Model):
 		# O 'true' é considerado maior que o 'false', por isso o '-'
 		ordering = ['-correct', '-created']
 
-
+# O 'update' não dispara os gatilhos pré e post_save
 # Para contar as respostas de uma Thread
 def post_save_reply(created, instance, **kwargs):
 	instance.thread.answers = instance.thread.replies.count()
 	instance.thread.save()
+	# Indicando se uma resposta é a correta
+	if instance.correct:
+		# Colocando todas as respostas para False exclude=menos a resposta em questão
+		instance.thread.replies.exclude(pk=instance.pk).update(correct=False)
 
 def post_delete_reply(instance, **kwargs):
 	instance.thread.answers = instance.thread.replies.count()

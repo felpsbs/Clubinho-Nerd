@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, ListView, DetailView, View
 from django.contrib import messages
 
-from .models import Thread
+from .models import Thread, Reply
 from .forms import ReplyForm
 
 """
@@ -104,9 +104,22 @@ class ThreadView(DetailView):
 			context['form'] = ReplyForm()
 		return self.render_to_response(context)
 
+
+class ReplyCorrectView(View):
+
+	correct = True
+
+	def get(self, request, pk):
+		reply = get_object_or_404(Reply, pk=pk, author=request.user)
+		reply.correct = self.correct
+		reply.save()
+		messages.success(request, 'Resposta atualizada com sucesso')
+		return redirect(reply.thread.get_absolute_url())
+
+
 # as_view retorna uma função
 index = ForumView.as_view()
 thread = ThreadView.as_view()
-
-
+reply_correct = ReplyCorrectView.as_view()
+reply_incorrect = ReplyCorrectView.as_view(correct=False)
 
