@@ -19,14 +19,17 @@ def index(request):
 def details(request, slug):
 	course = get_object_or_404(Course, slug=slug)
 	context = {}
-	if request.method == 'POST':
-		form = ContactCourse(request.POST)
-		if form.is_valid():	
-			context['is_valid'] = True
-			form.send_mail(course)
-			form = ContactCourse()
-	else:
+	form = ContactCourse(request.POST or None)
+	if form.is_valid():
+	# if request.method == 'POST':
+		# form = ContactCourse(request.POST)
+		# if form.is_valid():	
+		# context['is_valid'] = True
+		form.send_mail(course)
 		form = ContactCourse()
+		messages.success(request, 'Sua dúvida foi enviada com sucesso.')
+	# else:
+	# 	form = ContactCourse()
 
 	context['course'] = course
 	context['form'] = form	

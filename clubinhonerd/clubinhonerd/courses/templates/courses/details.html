@@ -45,10 +45,7 @@
 	<div class="pure-g-r content-ribbon" id="contato">
 		<div class="pure-u-1">
 			<h3>Tire sua dúvida sobre o Curso</h3>
-			{% if is_valid %} 
-				<p>Formulário enviado com sucesso</p>
-			{% endif %}
-			<form action="#contato" class="pure-form pure-form-aligned" method="post">
+			<form action="#" class="pure-form pure-form-aligned" method="post">
 				<!-- todo método post precisa desse TOKEN DE SEGURANÇA = 'csrf_token'-->
 				{% csrf_token %} 
 				<fieldset>

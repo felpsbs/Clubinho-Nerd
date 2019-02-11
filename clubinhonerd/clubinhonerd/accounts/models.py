@@ -65,3 +65,4 @@ class PasswordReset(models.Model):
 		verbose_name_plural = 'Novas senhas'
 		# em ordem decrescente/ atributo da classe meta
 		ordering = ['-created_at']
+
