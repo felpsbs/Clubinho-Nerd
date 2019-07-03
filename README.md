@@ -1,3 +1,3 @@
 <h1>Clubinho Nerd<h1>
 
-![](https://icon2.kisspng.com/20190131/cql/kisspng-emoji-domain-sticker-emojipedia-emoticon-kho-hnh-ngi-nam-5c5374803225f4.8447910215489731842054.jpg)
+![](https://i.pinimg.com/originals/8c/78/81/8c7881e03f35914fed799bde94b75927.png)
