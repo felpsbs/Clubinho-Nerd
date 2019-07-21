@@ -1,49 +1,80 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import {  
+  StyleSheet, 
+  Text, 
+  View,
+  TextInput,
+  Button,
+} from 'react-native';
+import firebase from './src/components/FirebaseConnection';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+export default class App extends Component {
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+  constructor(props) {
+    super(props);
 
-type Props = {};
-export default class App extends Component<Props> {
+    this.state = {
+      email: '',
+      senha: ''
+    };
+    
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+
+    // Listener
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user) {
+        alert('Usuario logado com sucesso!');
+      }
+    })
+    
+  }
+
+  logout() {
+    firebase.auth().signOut();
+    alert('Deslogado com sucesso!');
+  }
+
+  login() {
+    let state = this.state;
+    firebase.auth().signInWithEmailAndPassword(state.email, state.senha)
+    .catch((error) => {
+      if(error.code == 'auth/wrong-password') {
+        alert('Dados inválidos');
+      }else {
+        alert('Ops, tente novamente mais tarde!');
+      }
+    });
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+
+    return(      
+      <View style={styles.container} >  
+      <Text style={{ fontSize: 30, textAlign:'center' }}>Login</Text>      
+        <TextInput style={styles.input} placeholder='Email' onChangeText={(email) => {this.setState({email})} } />
+        <TextInput style={styles.input} placeholder='Senha' secureTextEntry={ true } onChangeText={(senha) => {this.setState({senha})}} />
+
+        <Button title='Entrar' onPress={this.login} />
+        <Button title='Sair' onPress={this.logout} />
       </View>
+
     );
   }
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding: 20
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  input: {
+    height: 50,
+    width: 350,
+    backgroundColor: '#ccc',
+    fontSize: 22,
+    padding: 5,
+    margin: 5
+  }
 });
