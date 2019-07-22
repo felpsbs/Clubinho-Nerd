@@ -1,37 +1,20 @@
 import React, { Component } from 'react';
 import { 
-    Text,
     View, 
-    Button, 
+    Image,
     StyleSheet, 
-    ImageBackground
+    ImageBackground,
+    TouchableHighlight
 } from 'react-native'; 
-import firebase from './FirebaseConnection';
-import { NavigationActions, StackActions } from 'react-navigation';
 
 export default class Home extends Component {
 
     static navigationOptions = {
-        title: 'Home'
+        drawerLabel: 'Home',
+        drawerIcon: ({ tintColor }) => (
+            <Image source={ require('../../assets/images/home_ativo.png') } style={ [styles.menuIcon, { tintColor:tintColor }] } />
+        ),
     };
-    
-    constructor(props) {
-        super(props);
-
-        this.logout = this.logout.bind(this);
-
-    }
-
-    logout() {
-        firebase.auth().signOut();
-        this.props.navigation.dispatch(StackActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: 'Login' })
-            ]
-        }));
-        alert('Deslogado com sucesso!');
-      }
 
     render() {
 
@@ -40,8 +23,9 @@ export default class Home extends Component {
             
                 <View style={ styles.container } > 
 
-                    <Text style = { styles.title }>Bem-vindo!</Text>                   
-                    <Button title='Sair' onPress={ this.logout } />
+                    <TouchableHighlight onPress={ () => this.props.navigation.toggleDrawer() } style={ styles.btnMenu } underlayColor='transparent'>
+                        <ImageBackground source={require('../../assets/images/menu.png')} resizeMode='cover' style={ styles.menuIcon } />
+                    </TouchableHighlight>                                 
 
                 </View>
 
@@ -49,7 +33,6 @@ export default class Home extends Component {
         );
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -64,5 +47,13 @@ const styles = StyleSheet.create({
     background:{
         flex: 1,
         width: null
-    }  
+    },
+    menuIcon: {
+        width: 35,
+        height: 35 
+    },
+    btnMenu: {
+        width: 35,
+        height: 35
+    }
 });

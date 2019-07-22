@@ -14,7 +14,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 export default class Login extends Component {
 
   static navigationOptions = {
-    title: 'Login'
+    header: null
   };
 
   constructor(props) {
@@ -34,16 +34,16 @@ export default class Login extends Component {
       // Se der certo o login
       if(user) {
         // Pegando o nome do Usuario
-        firebase.database().ref('usuarios').child(user.uid).once('value').then((snapshot) => {
-            let nome = snapshot.val().nome;
-            alert(`Seja Bem-vindo ${ nome }!`);  
-        })
+        // firebase.database().ref('usuarios').child(user.uid).once('value').then((snapshot) => {
+        //     let nome = snapshot.val().nome;
+        //     alert(`Seja Bem-vindo ${ nome }!`);  
+        // })
 
         this.props.navigation.dispatch(StackActions.reset({
           // Indicando que não existe nenhuma página antes dela
           index: 0,
           actions:[
-            NavigationActions.navigate({ routeName: 'Home' })
+            NavigationActions.navigate({ routeName: 'HomeContainer' })
           ]
         }));
       }
@@ -52,7 +52,7 @@ export default class Login extends Component {
   } 
 
   cadastro() {
-      this.props.navigation.navigate('Cadastro');
+    this.props.navigation.navigate('Cadastro');
   }
 
   login() {
@@ -62,7 +62,7 @@ export default class Login extends Component {
       if(error.code == 'auth/wrong-password') {
         alert('[ERROR]: Email/senha inválido!');
       }else {
-        alert('[ERROR]: Ops, tente novamente mais tarde!');
+        alert('Todos os campos são obrigatórios!');
       }
     });
   } 
@@ -73,19 +73,19 @@ export default class Login extends Component {
       <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >                  
         
         <View style={ styles.container } >   
-
-            <TextInput style={ styles.input } placeholder='Email' onChangeText={(email) => { this.setState({ email })} } />
-            <TextInput style={ styles.input } placeholder='Senha' secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
-
-            <View style={ styles.btnArea } >
-                <TouchableHighlight style={ styles.btnEntrar } onPress={ this.login } >
-                    <Text style={ styles.textEntrar } >ENTRAR</Text>
-                </TouchableHighlight>  
-            </View>
-
-            <TouchableHighlight style={ styles.btnEntrar } onPress={ this.cadastro }>
-                    <Text style={ styles.linkCadastrar } >Ainda não possui uma conta?</Text>
-            </TouchableHighlight>          
+  
+          <TextInput style={ styles.input } placeholder='Email' onChangeText={(email) => { this.setState({ email })} } />
+          <TextInput style={ styles.input } placeholder='Senha' secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
+ 
+          <View style={ styles.btnArea } >
+            <TouchableHighlight style={ styles.btnEntrar } onPress={ this.login } underlayColor='transparent' >
+                <Text style={ styles.txtEntrar } >ENTRAR</Text>
+            </TouchableHighlight>  
+          
+            <TouchableHighlight onPress={ this.cadastro } underlayColor='transparent' >
+              <Text style={ styles.txtCadastrar } >Ainda não possui uma conta?</Text>
+            </TouchableHighlight>
+          </View>          
             
         </View>
 
@@ -98,39 +98,40 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 20,
-        justifyContent: 'center'
+      flex: 1,
+      padding: 20,
+      justifyContent: 'center'
     },
     input: {
-        width: 350,       
-        height: 50,   
-        margin: 5,             
-        padding: 5,
-        fontSize: 22,
-        backgroundColor: '#FFFFFF',
+      width: 350,       
+      height: 50,   
+      margin: 5,             
+      padding: 5,
+      fontSize: 22,
+      backgroundColor: '#FFFFFF',
     },
     background:{
-        flex: 1,
-        width: null
+      flex: 1,
+      width: null
     },
     btnArea: {        
-        width: 130,
-        height: 40,         
-        alignItems: 'center',
-        borderRadius: 5,        
-        justifyContent: 'center',
-        backgroundColor: '#C75767',
+      marginTop: 10,
+      alignItems: 'center',
     },
     btnEntrar: {
-       
+      width: 130,
+      height: 40,         
+      alignItems: 'center',
+      borderRadius: 5,        
+      justifyContent: 'center',
+      backgroundColor: '#C75767',
     },
-    textEntrar: {
-        color: '#FFFFFF',
-        fontSize: 15
+    txtEntrar: {
+      color: '#FFFFFF',
+      fontSize: 15
     },
-    linkCadastrar: {
-        color: '#FFFFFF',
-        fontSize: 15
+    txtCadastrar: {
+      color: '#FFFFFF',
+      fontSize: 15
     }
 });  

@@ -15,6 +15,15 @@ export default class Cadastro extends Component {
 
   static navigationOptions = {
     title: 'Cadastro',
+    headerStyle: {
+        backgroundColor: '#DE6365',
+        fontSize: 50,
+    },
+    headerTitleStyle: {
+        fontSize: 30,
+        fontWeight: "200"
+    },
+    headerTintColor: '#FFFFFF'
   };
 
   constructor(props) {
@@ -29,37 +38,38 @@ export default class Cadastro extends Component {
     this.cadastrar = this.cadastrar.bind(this);    
 
     // Primeiro verifica se tem algum usuario logado, se tiver tira ele
-    firebase.auth().signOut();
-
-    // Listener
-    firebase.auth().onAuthStateChanged((user) => {
-        // Se foi cadastrado com sucesso
-        if(user) {
-            // Colocando//conectando esse usuario com o BD
-            firebase.database().ref('usuarios').child(user.uid).set({
-                nome: this.state.nome                
-            });
-            // Voltando para tela de Login após o cadastro
-            this.props.navigation.dispatch(StackActions.reset({
-                index: 0,
-                actions: [
-                    NavigationActions.navigate({ routeName: 'Login' })
-                ]
-            }));
-        }
-    });
-    
+    firebase.auth().signOut();    
   } 
 
   cadastrar() {
     let state = this.state;
-    firebase.auth().createUserWithEmailAndPassword(
-        state.email,
-        state.senha
-    ).catch((error) => {
-        alert(`[ERROR]: ${ error.code }`)
-    })
-    
+    if(state.nome != '' && state.email != '') {
+        // Listener
+        firebase.auth().onAuthStateChanged((user) => {
+            // Se foi cadastrado com sucesso
+            if(user) {
+                // Colocando//conectando esse usuario com o BD
+                firebase.database().ref('usuarios').child(user.uid).set({
+                    nome: state.nome                
+                });
+                // Voltando para tela de Login após o cadastro
+                this.props.navigation.dispatch(StackActions.reset({
+                    index: 0,
+                    actions: [  
+                        NavigationActions.navigate({ routeName: 'HomeContainer' })
+                    ]
+                }));
+            }
+        });
+
+        firebase.auth().createUserWithEmailAndPassword(state.email,state.senha)
+        .catch((error) => {
+            alert(`[ERROR]: ${ error.code }`)
+        })
+    }else {
+        alert('Todos os campos são obrigatórios!')
+    }
+     
   } 
 
   render() { 
@@ -68,14 +78,14 @@ export default class Cadastro extends Component {
         <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >    
         
             <View style={ styles.container } > 
-              
+
                 <TextInput style={ styles.input } placeholder='Nome' onChangeText={(nome) => { this.setState({ nome })} } />               
                 <TextInput style={ styles.input } placeholder='Email' onChangeText={(email) => { this.setState({ email })} } />
                 <TextInput style={ styles.input } placeholder='Senha' secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
                 
                 <View style={ styles.btnArea } >
-                    <TouchableHighlight style={ styles.btnCadastrar } onPress={ this.cadastrar } >
-                        <Text style={ styles.textCadastrar } >CADASTRAR</Text>
+                    <TouchableHighlight style={ styles.btnCadastrar } onPress={ this.cadastrar } underlayColor='transparent'>
+                        <Text style={ styles.txtCadastrar } >CADASTRAR</Text>
                     </TouchableHighlight>  
                 </View>
 
@@ -105,6 +115,10 @@ const styles = StyleSheet.create({
         width: null
     },
     btnArea: {        
+        marginTop: 10,
+        alignItems: 'center',
+    },
+    btnCadastrar: {
         width: 130,
         height: 40,         
         alignItems: 'center',
@@ -112,11 +126,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#C75767',
     },
-    btnCadastrar: {
-
-    },
-    textCadastrar: {
+    txtCadastrar: {
         color: '#FFFFFF',
         fontSize: 15
-    },
+    }
 });  
