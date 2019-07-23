@@ -2,6 +2,7 @@ const initialState = {
     nome: 'Nome',
     senha: 'Senha',
     email: 'exemplo@exemplo.com',
+    errorMessage: '',
 };
 
 const AuthReducer = (state = [], action) => {

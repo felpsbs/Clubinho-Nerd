@@ -18,7 +18,10 @@ const Navigator = createDrawerNavigator({
   initialRouteName: 'Home',
   drawerBackgroundColor: '#373737',
   contentOptions: {
-      activeTintColor: '#24C2CB'
+      activeTintColor: '#24C2CB',
+      labelStyle: {
+        fontSize: 20
+      }
   }
 });
 

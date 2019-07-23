@@ -15,6 +15,22 @@ export default class CustomDrawer extends Component {
 
   constructor(props) {
       super(props);
+
+      this.state = {
+          username: ''
+      };
+
+
+      firebase.auth().onAuthStateChanged((user) => {
+          if(user) {
+              let userUID = user.uid;
+
+              firebase.database().ref('usuarios').child(userUID).on('value', (snapshot) => {
+                  let state = this.state;
+                  state.username = snapshot.val().nome;
+              });
+          }
+      });
       
       this.logout = this.logout.bind(this);
 
@@ -36,13 +52,13 @@ export default class CustomDrawer extends Component {
         <View style={ styles.container } >
             <View style={ styles.perfilArea }>
                 <Image source={ require('../../assets/images/icons/perfil.png') } style={ styles.perfilImg } />
-                <Text style={ styles.username } >NOME DO USUÁRIO</Text>
+                <Text style={ styles.username } >{ this.state.username }</Text>
             </View>
             <ScrollView style={{ marginTop: 10 }} >
                 <DrawerItems { ...this.props } />
             </ScrollView>
             <View style={ styles.btnArea } >
-                <TouchableHighlight style={ styles.botao } onPress={ this.logout } underlayColor='transparent' >
+                <TouchableHighlight style={ styles.btnSair } onPress={ this.logout } underlayColor='transparent' >
                     <Text style={ styles.txtSair } >SAIR</Text>
                 </TouchableHighlight>  
             </View>
@@ -55,7 +71,6 @@ export default class CustomDrawer extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-       
     },
     perfilImg: {
         width: 65,
@@ -64,13 +79,13 @@ const styles = StyleSheet.create({
     },
     username: {
         color: '#FFFFFF',
-        fontSize: 15,
+        fontSize: 20,
         margin: 5 
     },
     btnArea: {        
         
     },
-    botao: {
+    btnSair: {
         width: '100%',
         height: 40,         
         alignItems: 'center',
