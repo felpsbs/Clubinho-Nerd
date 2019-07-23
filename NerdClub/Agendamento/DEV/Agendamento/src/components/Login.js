@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import firebase from './FirebaseConnection';
 import { NavigationActions, StackActions } from 'react-navigation';
 
-import { checkError } from '../redux/actions/AuthActions';
+import { checkLoginError } from '../redux/actions/AuthActions';
 
 export class Login extends Component {
 
@@ -58,10 +58,8 @@ export class Login extends Component {
     if(state.email != '' && state.senha != '') {
 
       firebase.auth().signInWithEmailAndPassword(state.email, state.senha)
-      .catch((error) => {
-        
-        this.props.checkError(error.code); 
-    
+      .catch((error) => {        
+        this.props.checkLoginError(error.code); 
       });
 
     }else {
@@ -148,6 +146,6 @@ const mapStateToProps = (state) => {
 };
 
 // Conectando a classe com o redux
-const LoginConnect = connect(mapStateToProps, { checkError })(Login);
+const LoginConnect = connect(mapStateToProps, { checkLoginError })(Login);
 
 export default LoginConnect;

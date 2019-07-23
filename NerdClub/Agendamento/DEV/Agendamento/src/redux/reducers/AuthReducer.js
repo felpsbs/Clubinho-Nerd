@@ -11,29 +11,44 @@ const AuthReducer = (state = [], action) => {
         return initialState;
     }
 
-    if(action.type == 'checkError') {
-        getErrorMessage(action.payload.errorType);
+    if(action.type == 'checkLoginError') {
+        getErrorMessage(action.payload.errorType, loginErrors);        
         return initialState;  
+    }
+
+    if(action.type == 'checkCadastroError') {
+        getErrorMessage(action.payload.errorType, cadastroErrors);
+        return initialState;
     }
 
     return state;
 };
 
-function getErrorMessage(errorType) {
+const loginErrors = [
     
-    switch (errorType) {
-        case 'auth/wrong-password':
-            alert('[ERROR]: Email/Senha inválidos!');
-            break;
-        case 'auth/invalid-email':
-            alert('[ERROR]: Email/Senha inválidos!');
-            break;
-        case 'auth/user-not-found':
-            alert('[ERROR]: Usuário não encontrado!');
-            break;    
-        default:
-            alert(`[ERROR]: ${ error }`);
-    }
+    { type: 'auth/wrong-password', message: '[ERROR]: Email/Senha inválidos!' },
+    { type: 'auth/invalid-email',  message: '[ERROR]: Email/Senha inválidos!' },
+    { type: 'auth/user-not-found', message: '[ERROR]: Usuário não encontrado!' },
+
+];
+
+const cadastroErrors = [
+    
+    { type: 'auth/invalid-email',  message: '[ERROR]: Email inválido!' },
+    { type: 'auth/weak-password',  message: '[ERROR]: Sua senha precisa ter no mínimo 6 caracteres!' },
+
+];
+
+function getErrorMessage(errorType, errorsList) {
+    let message = `[ERROR] ${ errorType }`;
+
+    for (var i = 0; i < errorsList.length; i++) {
+        if(errorsList[i].type == errorType) {
+            message = errorsList[i].message;
+        }
+     }
+
+     alert(message);
         
 };
 

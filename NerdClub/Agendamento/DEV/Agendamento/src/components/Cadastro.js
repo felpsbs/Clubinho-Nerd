@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import firebase from './FirebaseConnection';
 import { NavigationActions, StackActions } from 'react-navigation';
 
+import { checkCadastroError } from '../redux/actions/AuthActions';
+
 export class Cadastro extends Component {
 
   static navigationOptions = {
@@ -65,7 +67,7 @@ export class Cadastro extends Component {
 
         firebase.auth().createUserWithEmailAndPassword(state.email,state.senha)
         .catch((error) => {
-            alert(`[ERROR]: ${ error.code }`)
+            this.props.checkCadastroError(error.code)
         })
     }else {
         alert('Todos os campos são obrigatórios!')
@@ -143,6 +145,6 @@ const mapStateToProps = (state) => {
 };
 
 // Conectando a classe com o redux
-const CadastroConnect = connect(mapStateToProps)(Cadastro);
+const CadastroConnect = connect(mapStateToProps, { checkCadastroError })(Cadastro);
 
 export default CadastroConnect;

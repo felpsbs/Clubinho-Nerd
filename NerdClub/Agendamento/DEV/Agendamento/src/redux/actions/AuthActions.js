@@ -1,8 +1,17 @@
-export const checkError = (errorType) => {
+export const checkLoginError = (errorType) => {
     return{
-        type: 'checkError',
+        type: 'checkLoginError',
         payload: {
-            errorType:errorType
+            errorType: errorType
+        }
+    };
+};  
+
+export const checkCadastroError = (errorType) => {
+    return{
+        type: 'checkCadastroError',
+        payload: {
+            errorType: errorType
         }
     };
 };  
