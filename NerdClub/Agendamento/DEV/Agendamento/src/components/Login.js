@@ -8,10 +8,13 @@ import {
     ImageBackground,
     TouchableHighlight
 } from 'react-native';
+import { connect } from 'react-redux';
 import firebase from './FirebaseConnection';
 import { NavigationActions, StackActions } from 'react-navigation';
 
-export default class Login extends Component {
+import { checkError } from '../redux/actions/AuthActions';
+
+export class Login extends Component {
 
   static navigationOptions = {
     header: null
@@ -33,12 +36,6 @@ export default class Login extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       // Se der certo o login
       if(user) {
-        // Pegando o nome do Usuario
-        // firebase.database().ref('usuarios').child(user.uid).once('value').then((snapshot) => {
-        //     let nome = snapshot.val().nome;
-        //     alert(`Seja Bem-vindo ${ nome }!`);  
-        // })
-
         this.props.navigation.dispatch(StackActions.reset({
           // Indicando que não existe nenhuma página antes dela
           index: 0,
@@ -57,14 +54,20 @@ export default class Login extends Component {
 
   login() {
     let state = this.state;
-    firebase.auth().signInWithEmailAndPassword(state.email, state.senha)
-    .catch((error) => {
-      if(error.code == 'auth/wrong-password') {
-        alert('[ERROR]: Email/senha inválido!');
-      }else {
-        alert('Todos os campos são obrigatórios!');
-      }
-    });
+
+    if(state.email != '' && state.senha != '') {
+
+      firebase.auth().signInWithEmailAndPassword(state.email, state.senha)
+      .catch((error) => {
+        
+        this.props.checkError(error.code); 
+    
+      });
+
+    }else {
+      alert('Todos os campos são obrigatórios!');
+    }
+    
   } 
 
   render() { 
@@ -74,8 +77,8 @@ export default class Login extends Component {
         
         <View style={ styles.container } >   
   
-          <TextInput style={ styles.input } placeholder='Email' onChangeText={(email) => { this.setState({ email })} } />
-          <TextInput style={ styles.input } placeholder='Senha' secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
+          <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={(email) => { this.setState({ email })} } />
+          <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
  
           <View style={ styles.btnArea } >
             <TouchableHighlight style={ styles.btnEntrar } onPress={ this.login } underlayColor='transparent' >
@@ -135,3 +138,16 @@ const styles = StyleSheet.create({
       fontSize: 15
     }
 });  
+
+// Pegando o que está na store 
+const mapStateToProps = (state) => {
+  return {
+    email: state.auth.email,
+    senha: state.auth.senha
+  };
+};
+
+// Conectando a classe com o redux
+const LoginConnect = connect(mapStateToProps, { checkError })(Login);
+
+export default LoginConnect;

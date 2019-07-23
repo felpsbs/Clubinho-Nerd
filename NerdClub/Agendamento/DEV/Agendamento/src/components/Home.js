@@ -12,7 +12,7 @@ export default class Home extends Component {
     static navigationOptions = {
         drawerLabel: 'Home',
         drawerIcon: ({ tintColor }) => (
-            <Image source={ require('../../assets/images/home_ativo.png') } style={ [styles.menuIcon, { tintColor:tintColor }] } />
+            <Image source={ require('../../assets/images/icons/home_ativo.png') } style={ [styles.menuIcon, { tintColor:tintColor }] } />
         ),
     };
 
@@ -24,7 +24,7 @@ export default class Home extends Component {
                 <View style={ styles.container } > 
 
                     <TouchableHighlight onPress={ () => this.props.navigation.toggleDrawer() } style={ styles.btnMenu } underlayColor='transparent'>
-                        <ImageBackground source={require('../../assets/images/menu.png')} resizeMode='cover' style={ styles.menuIcon } />
+                        <ImageBackground source={require('../../assets/images/icons/menu.png')} resizeMode='cover' style={ styles.menuIcon } />
                     </TouchableHighlight>                                 
 
                 </View>
