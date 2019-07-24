@@ -1,6 +1,8 @@
+import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from './types';
+
 export const checkLoginError = (errorType) => {
     return{
-        type: 'checkLoginError',
+        type: CHECK_LOGIN_ERROR,
         payload: {
             errorType: errorType
         }
@@ -9,7 +11,7 @@ export const checkLoginError = (errorType) => {
 
 export const checkCadastroError = (errorType) => {
     return{
-        type: 'checkCadastroError',
+        type: CHECK_CADASTRO_ERROR,
         payload: {
             errorType: errorType
         }
