@@ -5,7 +5,6 @@ import {
     Image,
     ScrollView,
     StyleSheet,
-    TouchableOpacity,
     TouchableHighlight
 } from 'react-native';
 import { StackActions, NavigationActions, DrawerItems } from 'react-navigation';
@@ -14,25 +13,20 @@ import firebase from './FirebaseConnection';
 export default class CustomDrawer extends Component {
 
   constructor(props) {
-      super(props);
+    super(props);
 
-      this.state = {
-          username: ''
-      };
+    this.state = {
+        username: ''
+    };
 
-
-      firebase.auth().onAuthStateChanged((user) => {
-          if(user) {
-              let userUID = user.uid;
-
-              firebase.database().ref('usuarios').child(userUID).on('value', (snapshot) => {
-                  let state = this.state;
-                  state.username = snapshot.val().nome;
-              });
-          }
-      });
-      
-      this.logout = this.logout.bind(this);
+    // Pegando as informações do usuário logado
+    let userUID = firebase.auth().currentUser.uid;
+    firebase.database().ref('usuarios').child(userUID).on('value', (snapshot) => {
+        let state = this.state;
+        state.username = snapshot.val().nome;
+    });
+    
+    this.logout = this.logout.bind(this);
 
   }
 
@@ -54,7 +48,7 @@ export default class CustomDrawer extends Component {
                 <Image source={ require('../../assets/images/icons/perfil.png') } style={ styles.perfilImg } />
                 <Text style={ styles.username } >{ this.state.username }</Text>
             </View>
-            <ScrollView style={{ marginTop: 10 }} >
+            <ScrollView style={{ margin: 5 }} >
                 <DrawerItems { ...this.props } />
             </ScrollView>
             <View style={ styles.btnArea } >
@@ -98,9 +92,8 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     perfilArea: {
-        alignItems: 'center',
-        flexDirection: 'row', 
-        justifyContent: 'flex-start' 
+        alignItems: 'center', 
+        justifyContent: 'center' 
     }
     
 });  

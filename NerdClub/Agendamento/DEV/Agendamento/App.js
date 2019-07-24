@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { 
-  createAppContainer,
-  createStackNavigator 
-} from 'react-navigation';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -44,7 +41,7 @@ export default class App extends Component {
     render() {
       
       return(
-
+        
         <Provider store={ store } >
           <AppContainer />
         </Provider>

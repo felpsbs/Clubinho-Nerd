@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { 
     View,
     Text,
-    Button,
+    Alert,
     TextInput,
     StyleSheet,    
     ImageBackground,
@@ -63,7 +63,7 @@ export class Login extends Component {
       });
 
     }else {
-      alert('Todos os campos são obrigatórios!');
+      Alert.alert('Ops!', 'Todos os campos são obrigatórios!');
     }
     
   } 

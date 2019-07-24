@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { 
     View,
     Text,
-    Button,
+    Alert,
     TextInput,
     StyleSheet,
     ImageBackground,
@@ -65,12 +65,14 @@ export class Cadastro extends Component {
             }
         });
 
+        // Cadastrando no sistema de email e senha
         firebase.auth().createUserWithEmailAndPassword(state.email,state.senha)
         .catch((error) => {
             this.props.checkCadastroError(error.code)
         })
+
     }else {
-        alert('Todos os campos são obrigatórios!')
+        Alert.alert('Ops!', 'Todos os campos são obrigatórios!');
     }
      
   } 

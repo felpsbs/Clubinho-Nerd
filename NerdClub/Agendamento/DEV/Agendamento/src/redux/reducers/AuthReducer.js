@@ -1,11 +1,10 @@
 import { Alert } from 'react-native';
-import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from '../actions/types';
+import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from '../actions/Types';
 
 const initialState = {
     nome: 'Nome',
     senha: 'Senha',
     email: 'exemplo@exemplo.com',
-    errorMessage: '',
 };
 
 const AuthReducer = (state = [], action) => {
@@ -52,8 +51,8 @@ function getErrorMessage(errorType, errorsList) {
         }
      }
 
-     Alert.alert('Ops!', message);
+    Alert.alert('Ops!', message);
         
 };
 
-export default AuthReducer;
+export default AuthReducer;    
