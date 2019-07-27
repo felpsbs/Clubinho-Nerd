@@ -2,9 +2,11 @@ import { Alert } from 'react-native';
 import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from '../actions/Types';
 
 const initialState = {
-    nome: 'Nome',
+    nome: 'Nome Completo',
     senha: 'Senha',
     email: 'exemplo@exemplo.com',
+    celular: 'Celular',
+    cpf: 'Cpf'
 };
 
 const AuthReducer = (state = [], action) => {
