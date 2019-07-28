@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { 
     View,
     Text,
+    Image,
     Alert,
+    Picker,
     TextInput,
     StyleSheet,
     ImageBackground,
     TouchableHighlight,
-    Picker
 } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from './FirebaseConnection';
@@ -19,6 +20,12 @@ export class Cadastro extends Component {
 
   static navigationOptions = {
     title: 'Cadastro',
+    headerRight: (
+        <Image 
+            style={{ width: 40, height: 40, marginRight: 10 }} 
+            source={ require('../../assets/images/logo/logo_branca_transparente.png') } 
+        />
+    ),
     headerStyle: {
         backgroundColor: '#DE6365',
         fontSize: 50,
@@ -27,30 +34,35 @@ export class Cadastro extends Component {
         fontSize: 30,
         fontWeight: "200"
     },
-    headerTintColor: '#FFFFFF'
+    headerTintColor: '#FFFFFF',
+    headerBackImage: (
+        <Image 
+            style={{  width: 25, height: 25 }} 
+            source={ require('../../assets/images/icons/left-arrow.png') }
+        />
+    )
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      nome: '',
-      email: '',
-      senha: '',
-      senhaConfirmacao: '',
-      sexo: '',
-      sexos: [
-          {sexo: 'Sexo', value: 'Sexo'},  //Fazer função para nao permitir que 'sexo' seja marcado na hora de cadastrar - so pode ser valido "feminino" e 'masculino
-          {sexo: 'Feminino', value: 'Feminino'},
-          {sexo: 'Masculino', value: 'Masculino'},
-
-      ],
-      celular: '',
-      cpf: '',
+        cpf: '',
+        nome: '',
+        sexo: '',
+        email: '',
+        senha: '',                
+        sexos: [
+            { sexo: 'Sexo', value: 'Sexo'},  //Fazer função para nao permitir que 'sexo' seja marcado na hora de cadastrar - so pode ser valido "feminino" e 'masculino
+            { sexo: 'Feminino', value: 'Feminino' },
+            { sexo: 'Masculino', value: 'Masculino' },
+        ],
+        celular: '',
+        senhaConfirmacao: '',
     };
     
-    this.cadastrar = this.cadastrar.bind(this);    
-
+    this.cadastrar = this.cadastrar.bind(this);
+    
     // Primeiro verifica se tem algum usuario logado, se tiver tira ele
     firebase.auth().signOut();    
   } 
@@ -88,25 +100,20 @@ export class Cadastro extends Component {
      
   } 
 
-
-
-
   render() { 
   
     let sexosItem = this.state.sexos.map((v, k) => {
         return <Picker.Item color='#1F2957'  key={k} label = {v.sexo} value = {k}/>
     });
 
-
-
     return(    
         <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >    
         
             <View style={ styles.container } > 
 
-                <TextInput style={ styles.input } placeholder={ this.props.nome } onChangeText={(nome) => { this.setState({ nome })} } />               
-                <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={(email) => { this.setState({ email })} } />
-                <Picker style = {styles.picker} selectedValue= {this.state.sexo} onValueChange = {(itemValue, itemIndex) => this.setState({sexo: itemValue}) }>
+                <TextInput style={ styles.input } placeholder={ this.props.nome } onChangeText={ (nome) => { this.setState({ nome })} } />               
+                <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={ (email) => { this.setState({ email })} } />
+                <Picker style = { styles.picker } selectedValue= { this.state.sexo } onValueChange = { (itemValue, itemIndex) => this.setState({ sexo: itemValue }) }>
                     {sexosItem}
                 </Picker>
                 <TextInput style={ styles.input } placeholder={ this.props.cpf } onChangeText={(cpf) => { this.setState({ cpf })} } />             
@@ -161,27 +168,26 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 15
     },
-
     picker: {
         width: 350,
         height: 50,
         margin: 5,
         padding: 5,
         backgroundColor: '#FFFFFF',
-    },
+    }
 
 });  
 
 // Pegando o que está na store 
 const mapStateToProps = (state) => {
     return{
-        email: state.auth.email,
-        senha: state.auth.senha,
+        cpf: state.auth.cpf,
         nome: state.auth.nome,
         sexo: state.auth.sexo,
+        email: state.auth.email,
+        senha: state.auth.senha,
         sexos: state.auth.sexos,
         celular: state.auth.celular,
-        cpf: state.auth.cpf,
         senhaConfirmacao: state.auth.senhaConfirmacao
     };
 };

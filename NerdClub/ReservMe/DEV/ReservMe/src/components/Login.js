@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { 
     View,
     Text,
+    Image,
     Alert,
     TextInput,
     StyleSheet,    
@@ -73,11 +74,18 @@ export class Login extends Component {
     return(      
       <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >                  
         
+        <View style={ styles.logoArea } >
+          <Text style={ styles.appTitle } >ReservMe</Text>
+          <Image source={require('../../assets/images/logo/logo_branca_transparente.png')} style={ styles.logo } />
+        </View>
+
         <View style={ styles.container } >   
   
-          <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={(email) => { this.setState({ email })} } />
-          <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
- 
+          <View style={ styles.inputArea } >
+            <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={(email) => { this.setState({ email })} } />
+            <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
+          </View>
+          
           <View style={ styles.btnArea } >
             <TouchableHighlight style={ styles.btnEntrar } onPress={ this.login } underlayColor='transparent' >
                 <Text style={ styles.txtEntrar } >ENTRAR</Text>
@@ -104,7 +112,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
     },
     input: {
-      width: 350,       
+      width: 300,       
       height: 50,   
       margin: 5,             
       padding: 5,
@@ -134,6 +142,40 @@ const styles = StyleSheet.create({
     txtCadastrar: {
       color: '#FFFFFF',
       fontSize: 15
+    },
+    logoArea: {
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    logo: {
+      width: 100,
+      height: 100,
+      marginTop: 60,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+      
+    },
+    appTitle: {
+      color: '#FFFFFF',
+      fontSize: 35,
+      marginTop: 40,
+      textAlign: 'center',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.30,
+      shadowRadius: 4.65,
+    },
+    inputArea: {
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     btnCadastrarAre: {
       marginTop: 15

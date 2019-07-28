@@ -24,7 +24,7 @@ const Navigator = createStackNavigator({
     screen: Login
   },
   Cadastro: {
-    screen: Cadastro
+    screen: Cadastro,
   }  
 
 }, {
