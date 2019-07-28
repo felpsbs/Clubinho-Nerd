@@ -64,7 +64,7 @@ export class Login extends Component {
       });
 
     }else {
-      Alert.alert('Ops!', 'Todos os campos são obrigatórios!');
+      this.props.checkLoginError('auth/required');
     }
     
   } 

@@ -62,13 +62,27 @@ export class Cadastro extends Component {
     };
     
     this.cadastrar = this.cadastrar.bind(this);
+    this.validateNome = this.validateNome.bind(this);
     
     // Primeiro verifica se tem algum usuario logado, se tiver tira ele
     firebase.auth().signOut();    
   } 
 
+  validateNome(nome) {
+    // Expressão regular que só aceita letras e espaços
+    const formato = /^[a-zA-Z \-]+$/;
+    
+    let result = false;
+    if(nome.match(formato)) {
+      result = true
+    }
+
+    return result   
+  }
+
   cadastrar() {
     let state = this.state;
+    
     if(state.nome != '' && state.email != '') {
         // Listener
         firebase.auth().onAuthStateChanged((user) => {
@@ -88,14 +102,19 @@ export class Cadastro extends Component {
             }
         });
 
-        // Cadastrando no sistema de email e senha
-        firebase.auth().createUserWithEmailAndPassword(state.email,state.senha)
-        .catch((error) => {
-            this.props.checkCadastroError(error.code)
-        })
-
+        // Se o nome for válido
+        if(this.validateNome(state.nome)) {
+            // Cadastrando no sistema de email e senha
+            firebase.auth().createUserWithEmailAndPassword(state.email,state.senha)
+            .catch((error) => {
+                this.props.checkCadastroError(error.code)
+            })
+        } else {
+            this.props.checkCadastroError('auth/invalid-name');
+        }
+        
     }else {
-        Alert.alert('Ops!', 'Todos os campos são obrigatórios!');
+        this.props.checkCadastroError('auth/required');
     }
      
   } 
@@ -114,7 +133,7 @@ export class Cadastro extends Component {
                 <TextInput style={ styles.input } placeholder={ this.props.nome } onChangeText={ (nome) => { this.setState({ nome })} } />               
                 <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={ (email) => { this.setState({ email })} } />
                 <Picker style = { styles.picker } selectedValue= { this.state.sexo } onValueChange = { (itemValue, itemIndex) => this.setState({ sexo: itemValue }) }>
-                    {sexosItem}
+                    { sexosItem }
                 </Picker>
                 <TextInput style={ styles.input } placeholder={ this.props.cpf } onChangeText={(cpf) => { this.setState({ cpf })} } />             
                 <TextInput style={ styles.input } placeholder={ this.props.celular } onChangeText={(celular) => { this.setState({ celular })} } keyboardType={"numeric"} /> 

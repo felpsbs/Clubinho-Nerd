@@ -32,14 +32,19 @@ const AuthReducer = (state = [], action) => {
 
 const loginErrors = [
     
-    { type: 'auth/wrong-password', message: '[ERROR]: Email/Senha inválidos!' },
+    { type: 'auth/required',       message: '[ERROR]: Os campos são obrigatórios!' },
     { type: 'auth/invalid-email',  message: '[ERROR]: Email/Senha inválidos!' },
+    { type: 'auth/wrong-password', message: '[ERROR]: Email/Senha inválidos!' },
     { type: 'auth/user-not-found', message: '[ERROR]: Usuário não encontrado!' },
+    
 
 ];
 
 const cadastroErrors = [
     
+    { type: 'auth/required',       message: '[ERROR]: Os campos são obrigatórios!' },
+    { type: 'auth/invalid-sex',    message: '[ERROR]: Sexo selecionado inválido!' },
+    { type: 'auth/invalid-name',   message: '[ERROR]: Nome de usuário inválido!' },
     { type: 'auth/invalid-email',  message: '[ERROR]: Email inválido!' },
     { type: 'auth/weak-password',  message: '[ERROR]: Sua senha precisa ter no mínimo 6 caracteres!' },
 
