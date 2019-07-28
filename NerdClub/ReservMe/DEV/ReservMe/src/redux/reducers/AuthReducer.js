@@ -6,7 +6,8 @@ const initialState = {
     senha: 'Senha',
     email: 'exemplo@exemplo.com',
     celular: 'Celular',
-    cpf: 'Cpf'
+    cpf: 'Cpf',
+    senhaConfirmacao: 'Digite novamente a senha' 
 };
 
 const AuthReducer = (state = [], action) => {

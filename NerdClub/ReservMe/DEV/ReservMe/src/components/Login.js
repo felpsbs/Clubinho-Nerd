@@ -83,7 +83,7 @@ export class Login extends Component {
                 <Text style={ styles.txtEntrar } >ENTRAR</Text>
             </TouchableHighlight>  
           
-            <TouchableHighlight onPress={ this.cadastro } underlayColor='transparent' >
+            <TouchableHighlight style={ styles.btnCadastrarAre} onPress={ this.cadastro } underlayColor='transparent' >
               <Text style={ styles.txtCadastrar } >Ainda não possui uma conta?</Text>
             </TouchableHighlight>
           </View>          
@@ -134,6 +134,9 @@ const styles = StyleSheet.create({
     txtCadastrar: {
       color: '#FFFFFF',
       fontSize: 15
+    },
+    btnCadastrarAre: {
+      marginTop: 15
     }
 });  
 

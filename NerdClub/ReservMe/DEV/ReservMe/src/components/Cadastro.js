@@ -7,7 +7,7 @@ import {
     StyleSheet,
     ImageBackground,
     TouchableHighlight,
-    CheckBox
+    Picker
 } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from './FirebaseConnection';
@@ -37,8 +37,16 @@ export class Cadastro extends Component {
       nome: '',
       email: '',
       senha: '',
+      senhaConfirmacao: '',
+      sexo: '',
+      sexos: [
+          {sexo: 'Sexo', value: 'Sexo'},  //Fazer função para nao permitir que 'sexo' seja marcado na hora de cadastrar - so pode ser valido "feminino" e 'masculino
+          {sexo: 'Feminino', value: 'Feminino'},
+          {sexo: 'Masculino', value: 'Masculino'},
+
+      ],
       celular: '',
-      cpf: ''
+      cpf: '',
     };
     
     this.cadastrar = this.cadastrar.bind(this);    
@@ -81,7 +89,15 @@ export class Cadastro extends Component {
   } 
 
 
+
+
   render() { 
+  
+    let sexosItem = this.state.sexos.map((v, k) => {
+        return <Picker.Item color='#1F2957'  key={k} label = {v.sexo} value = {k}/>
+    });
+
+
 
     return(    
         <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >    
@@ -90,9 +106,13 @@ export class Cadastro extends Component {
 
                 <TextInput style={ styles.input } placeholder={ this.props.nome } onChangeText={(nome) => { this.setState({ nome })} } />               
                 <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={(email) => { this.setState({ email })} } />
-                <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />            
-                <TextInput style={ styles.input } placeholder={ this.props.cpf } onChangeText={(cpf) => { this.setState({ cpf })} } />
+                <Picker style = {styles.picker} selectedValue= {this.state.sexo} onValueChange = {(itemValue, itemIndex) => this.setState({sexo: itemValue}) }>
+                    {sexosItem}
+                </Picker>
+                <TextInput style={ styles.input } placeholder={ this.props.cpf } onChangeText={(cpf) => { this.setState({ cpf })} } />             
                 <TextInput style={ styles.input } placeholder={ this.props.celular } onChangeText={(celular) => { this.setState({ celular })} } keyboardType={"numeric"} /> 
+                <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
+                <TextInput style={ styles.input } placeholder={ this.props.senhaConfirmacao } secureTextEntry={ true } onChangeText={(senhaConfirmacao) => { this.setState({ senhaConfirmacao })} } />
 
                 <View style={ styles.btnArea } >
                     <TouchableHighlight style={ styles.btnCadastrar } onPress={ this.cadastrar } underlayColor='transparent'>
@@ -126,7 +146,7 @@ const styles = StyleSheet.create({
         width: null
     },
     btnArea: {        
-        marginTop: 10,
+        marginTop: 40,
         alignItems: 'center',
     },
     btnCadastrar: {
@@ -140,7 +160,16 @@ const styles = StyleSheet.create({
     txtCadastrar: {
         color: '#FFFFFF',
         fontSize: 15
-    }
+    },
+
+    picker: {
+        width: 350,
+        height: 50,
+        margin: 5,
+        padding: 5,
+        backgroundColor: '#FFFFFF',
+    },
+
 });  
 
 // Pegando o que está na store 
@@ -149,8 +178,11 @@ const mapStateToProps = (state) => {
         email: state.auth.email,
         senha: state.auth.senha,
         nome: state.auth.nome,
+        sexo: state.auth.sexo,
+        sexos: state.auth.sexos,
         celular: state.auth.celular,
-        cpf: state.auth.cpf
+        cpf: state.auth.cpf,
+        senhaConfirmacao: state.auth.senhaConfirmacao
     };
 };
 
