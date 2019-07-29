@@ -45,7 +45,7 @@ export default class CustomDrawer extends Component {
     return(    
         <View style={ styles.container } >
             <View style={ styles.perfilArea }>
-                <Image source={ require('../../assets/images/icons/perfil.png') } style={ styles.perfilImg } />
+                <Image source={ require('../assets/images/icons/perfil.png') } style={ styles.perfilImg } />
                 <Text style={ styles.username } >{ this.state.username }</Text>
             </View>
             <ScrollView style={{ margin: 5 }} >

@@ -12,19 +12,19 @@ export default class Home extends Component {
     static navigationOptions = {
         drawerLabel: 'Home',
         drawerIcon: ({ tintColor }) => (
-            <Image source={ require('../../assets/images/icons/home_ativo.png') } style={ [styles.menuIcon, { tintColor:tintColor }] } />
+            <Image source={ require('../assets/images/icons/home_ativo.png') } style={ [styles.menuIcon, { tintColor:tintColor }] } />
         ),
     };
 
     render() {
 
         return(
-            <ImageBackground source={ require('../../assets/images/background/bluebackground.png') } style={ styles.background }  >
+            <ImageBackground source={ require('../assets/images/background/bluebackground.png') } style={ styles.background }  >
             
                 <View style={ styles.container } > 
 
                     <TouchableHighlight onPress={ () => this.props.navigation.toggleDrawer() } style={ styles.btnMenu } underlayColor='transparent'>
-                        <ImageBackground source={require('../../assets/images/icons/menu.png')} resizeMode='cover' style={ styles.menuIcon } />
+                        <ImageBackground source={require('../assets/images/icons/menu.png')} resizeMode='cover' style={ styles.menuIcon } />
                     </TouchableHighlight>                                 
 
                 </View>

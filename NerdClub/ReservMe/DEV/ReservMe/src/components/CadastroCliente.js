@@ -23,7 +23,7 @@ export class CadastroCliente extends Component {
     headerRight: (
         <Image 
             style={{ width: 40, height: 40, marginRight: 10 }} 
-            source={ require('../../assets/images/logo/logo_branca_transparente.png') } 
+            source={ require('../assets/images/logo/logo_branca_transparente.png') } 
         />
     ),
     headerStyle: {
@@ -38,7 +38,7 @@ export class CadastroCliente extends Component {
     headerBackImage: (
         <Image 
             style={{  width: 25, height: 25 }} 
-            source={ require('../../assets/images/icons/left-arrow.png') }
+            source={ require('../assets/images/icons/left-arrow.png') }
         />
     )
   };
@@ -127,7 +127,7 @@ export class CadastroCliente extends Component {
     });
 
     return(    
-        <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >    
+        <ImageBackground source={ require('../assets/images/background/background.png') } style={ styles.background }  >    
             
             <View style={ styles.container } > 
                 <View style={ styles.checkBoxArea }>

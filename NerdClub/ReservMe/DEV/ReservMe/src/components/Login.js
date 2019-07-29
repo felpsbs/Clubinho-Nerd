@@ -76,11 +76,11 @@ export class Login extends Component {
   render() { 
 
     return(      
-      <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >                  
+      <ImageBackground source={ require('../assets/images/background/background.png') } style={ styles.background }  >                  
               
         <View style={ styles.logoArea } >
           <Text style={ styles.appTitle } >ReservMe</Text>
-          <Image source={require('../../assets/images/logo/logo_branca_transparente.png')} style={ styles.logo } />
+          <Image source={require('../assets/images/logo/logo_branca_transparente.png')} style={ styles.logo } />
         </View>
 
         <View style={ styles.container } >   
