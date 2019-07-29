@@ -59,7 +59,7 @@ export class CadastroCliente extends Component {
         ],
         celular: '',
         senhaConfirmacao: '',
-        clienteCheckBox: false,
+        clienteCheckBox: true,
     };
     
     this.cadastrar = this.cadastrar.bind(this);
