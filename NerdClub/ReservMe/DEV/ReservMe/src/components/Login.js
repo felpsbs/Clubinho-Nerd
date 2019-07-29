@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     Alert,
+    CheckBox,
     TextInput,
     StyleSheet,    
     ImageBackground,
@@ -26,7 +27,10 @@ export class Login extends Component {
 
     this.state = {
       email: '',
-      senha: ''
+      senha: '',
+      clienteCheckBox: false,
+      adminCheckBox: false,
+      profCheckBox: false,
     };
     
     // Funções
@@ -50,7 +54,7 @@ export class Login extends Component {
   } 
 
   cadastro() {
-    this.props.navigation.navigate('Cadastro');
+    this.props.navigation.navigate('CadastroCliente');
   }
 
   login() {
@@ -73,7 +77,7 @@ export class Login extends Component {
 
     return(      
       <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >                  
-        
+              
         <View style={ styles.logoArea } >
           <Text style={ styles.appTitle } >ReservMe</Text>
           <Image source={require('../../assets/images/logo/logo_branca_transparente.png')} style={ styles.logo } />
@@ -85,6 +89,20 @@ export class Login extends Component {
             <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={(email) => { this.setState({ email })} } />
             <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
           </View>
+
+          <View style={ styles.perfilArea } >
+            <Text style={styles.checkBoxText } >Quem é você?</Text>
+            <View style={styles.checkBoxArea} >
+              <CheckBox  value={ this.state.clienteCheckBox } onValueChange={(valor) => this.setState({clienteCheckBox: valor })} />              
+              <CheckBox  value={ this.state.profCheckBox } onValueChange={(valor) => this.setState({profCheckBox: valor })} />
+              <CheckBox  value={ this.state.adminCheckBox } onValueChange={(valor) => this.setState({adminCheckBox: valor })} />
+            </View>
+            <View style={styles.checkBoxTextArea} >
+              <Text style={ styles.checkBoxText } >Cliente</Text>
+              <Text style={ styles.checkBoxText } >Profissional</Text>
+              <Text style={ styles.checkBoxText } >Administrador</Text>
+            </View>
+          </View>
           
           <View style={ styles.btnArea } >
             <TouchableHighlight style={ styles.btnEntrar } onPress={ this.login } underlayColor='transparent' >
@@ -94,7 +112,7 @@ export class Login extends Component {
             <TouchableHighlight style={ styles.btnCadastrarAre} onPress={ this.cadastro } underlayColor='transparent' >
               <Text style={ styles.txtCadastrar } >Ainda não possui uma conta?</Text>
             </TouchableHighlight>
-          </View>          
+          </View>   
             
         </View>
 
@@ -179,6 +197,24 @@ const styles = StyleSheet.create({
     },
     btnCadastrarAre: {
       marginTop: 15
+    },
+    perfilArea: {
+      margin: 10,
+      flexDirection:'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    checkBoxTextArea: {
+       alignItems: 'flex-start', 
+       justifyContent: 'center' 
+    },
+    checkBoxText: {
+      color: '#FFF',
+      fontSize: 18, 
+    },
+    checkBoxArea:  {
+      alignItems: 'center', 
+      justifyContent: 'center'
     }
 });  
 

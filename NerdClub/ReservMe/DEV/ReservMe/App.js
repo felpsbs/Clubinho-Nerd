@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import Login from './src/components/Login';
-import Cadastro from './src/components/Cadastro';
+import CadastroCliente from './src/components/CadastroCliente';
 import Reducers from './src/redux/store/Reducers';
 import HomeContainer from './src/components/HomeContainer';
 
@@ -23,8 +23,8 @@ const Navigator = createStackNavigator({
   Login: {
     screen: Login
   },
-  Cadastro: {
-    screen: Cadastro,
+  CadastroCliente: {
+    screen: CadastroCliente,
   }  
 
 }, {

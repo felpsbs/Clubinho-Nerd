@@ -3,8 +3,8 @@ import {
     View,
     Text,
     Image,
-    Alert,
     Picker,
+    CheckBox,
     TextInput,
     StyleSheet,
     ImageBackground,
@@ -16,7 +16,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 
 import { checkCadastroError } from '../redux/actions/AuthActions';
 
-export class Cadastro extends Component {
+export class CadastroCliente extends Component {
 
   static navigationOptions = {
     title: 'Cadastro',
@@ -59,6 +59,7 @@ export class Cadastro extends Component {
         ],
         celular: '',
         senhaConfirmacao: '',
+        clienteCheckBox: false,
     };
     
     this.cadastrar = this.cadastrar.bind(this);
@@ -127,9 +128,12 @@ export class Cadastro extends Component {
 
     return(    
         <ImageBackground source={ require('../../assets/images/background/background.png') } style={ styles.background }  >    
-        
+            
             <View style={ styles.container } > 
-
+                <View style={ styles.checkBoxArea }>
+                    <Text style={{ fontSize: 20, color: '#FFF' }} >Seu perfil é de Cliente</Text>
+                    <CheckBox disabled={ true } value={ this.state.clienteCheckBox } />
+                </View>
                 <TextInput style={ styles.input } placeholder={ this.props.nome } onChangeText={ (nome) => { this.setState({ nome })} } />               
                 <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={ (email) => { this.setState({ email })} } />
                 <Picker style = { styles.picker } selectedValue= { this.state.sexo } onValueChange = { (itemValue, itemIndex) => this.setState({ sexo: itemValue }) }>
@@ -138,14 +142,14 @@ export class Cadastro extends Component {
                 <TextInput style={ styles.input } placeholder={ this.props.cpf } onChangeText={(cpf) => { this.setState({ cpf })} } />             
                 <TextInput style={ styles.input } placeholder={ this.props.celular } onChangeText={(celular) => { this.setState({ celular })} } keyboardType={"numeric"} /> 
                 <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
-                <TextInput style={ styles.input } placeholder={ this.props.senhaConfirmacao } secureTextEntry={ true } onChangeText={(senhaConfirmacao) => { this.setState({ senhaConfirmacao })} } />
-
+                <TextInput style={ styles.input } placeholder={ this.props.senhaConfirmacao } secureTextEntry={ true } onChangeText={(senhaConfirmacao) => { this.setState({ senhaConfirmacao })} } />                              
+                
                 <View style={ styles.btnArea } >
                     <TouchableHighlight style={ styles.btnCadastrar } onPress={ this.cadastrar } underlayColor='transparent'>
                         <Text style={ styles.txtCadastrar } >CADASTRAR</Text>
                     </TouchableHighlight>  
                 </View>
-
+                
             </View>
 
         </ImageBackground>
@@ -193,6 +197,15 @@ const styles = StyleSheet.create({
         margin: 5,
         padding: 5,
         backgroundColor: '#FFFFFF',
+    },
+    checkBoxArea: {
+        width: 350,
+        margin: 5,
+        height: 50,
+        padding: 5,
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',  
     }
 
 });  
@@ -212,6 +225,6 @@ const mapStateToProps = (state) => {
 };
 
 // Conectando a classe com o redux
-const CadastroConnect = connect(mapStateToProps, { checkCadastroError })(Cadastro);
+const CadastroConnect = connect(mapStateToProps, { checkCadastroError })(CadastroCliente);
 
 export default CadastroConnect;
