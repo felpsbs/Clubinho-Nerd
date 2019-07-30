@@ -90,17 +90,27 @@ export class Login extends Component {
             <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
           </View>
 
-          <View style={ styles.perfilArea } >
+          <View style={{alignItems:'center', justifyContent:'center', flexDirection: 'row'}} >
+            
             <Text style={styles.checkBoxText } >Quem é você?</Text>
-            <View style={styles.checkBoxArea} >
-              <CheckBox  value={ this.state.clienteCheckBox } onValueChange={(valor) => this.setState({clienteCheckBox: valor })} />              
-              <CheckBox  value={ this.state.profCheckBox } onValueChange={(valor) => this.setState({profCheckBox: valor })} />
-              <CheckBox  value={ this.state.adminCheckBox } onValueChange={(valor) => this.setState({adminCheckBox: valor })} />
-            </View>
-            <View style={styles.checkBoxTextArea} >
-              <Text style={ styles.checkBoxText } >Cliente</Text>
-              <Text style={ styles.checkBoxText } >Profissional</Text>
-              <Text style={ styles.checkBoxText } >Administrador</Text>
+            
+            <View style={ styles.perfilArea } >
+            
+              <View style={styles.checkBoxArea} >              
+                <CheckBox  value={ this.state.clienteCheckBox } onValueChange={(valor) => this.setState({clienteCheckBox: valor })} />                 
+                <Text style={ styles.checkBoxText } >Cliente</Text>
+              </View>
+
+              <View style={styles.checkBoxArea} >
+                <CheckBox  value={ this.state.profCheckBox } onValueChange={(valor) => this.setState({profCheckBox: valor })} />
+                <Text style={ styles.checkBoxText } >Profissional</Text>
+              </View>
+
+              <View style={styles.checkBoxArea} >              
+                <CheckBox  value={ this.state.adminCheckBox } onValueChange={(valor) => this.setState({adminCheckBox: valor })} />
+                <Text style={ styles.checkBoxText } >Administrador</Text>
+              </View>
+    
             </View>
           </View>
           
@@ -200,9 +210,9 @@ const styles = StyleSheet.create({
     },
     perfilArea: {
       margin: 10,
-      flexDirection:'row',
-      alignItems: 'center',
-      justifyContent: 'center',
+      flexDirection:'column',
+      alignItems: 'flex-start', 
+      // justifyContent: 'center',
     },
     checkBoxTextArea: {
        alignItems: 'flex-start', 
@@ -213,8 +223,9 @@ const styles = StyleSheet.create({
       fontSize: 18, 
     },
     checkBoxArea:  {
-      alignItems: 'center', 
-      justifyContent: 'center'
+      flexDirection: 'row',
+      // alignItems: 'flex-start', 
+      justifyContent: 'center' 
     }
 });  
 
