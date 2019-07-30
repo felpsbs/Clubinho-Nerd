@@ -1,4 +1,4 @@
-import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from './Types';
+import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from './types';
 
 export const checkLoginError = (errorType) => {
     return{

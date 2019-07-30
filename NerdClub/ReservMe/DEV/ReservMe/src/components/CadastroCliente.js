@@ -84,7 +84,7 @@ export class CadastroCliente extends Component {
 
   cadastrar() {
     let state = this.state;
-    
+
     if(state.nome != '' && state.email != '') {
         // Listener
         firebase.auth().onAuthStateChanged((user) => {

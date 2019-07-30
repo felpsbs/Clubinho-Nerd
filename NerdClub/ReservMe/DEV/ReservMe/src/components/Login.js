@@ -28,14 +28,18 @@ export class Login extends Component {
     this.state = {
       email: '',
       senha: '',
-      clienteCheckBox: false,
-      adminCheckBox: false,
-      profCheckBox: false,
+      checkBoxes:[
+        // 0 = cliente, 1 = profissional, 2= admin
+        { id: 0, checked: false },
+        { id: 1, checked: false },
+        { id: 2, checked: false}
+      ],
     };
     
     // Funções
     this.login = this.login.bind(this);
-    this.cadastro = this.cadastro.bind(this);    
+    this.cadastro = this.cadastro.bind(this);   
+    this.setCheckBoxChecked = this.setCheckBoxChecked.bind(this); 
 
     // Listener
     firebase.auth().onAuthStateChanged((user) => {
@@ -53,13 +57,19 @@ export class Login extends Component {
     
   } 
 
+  setCheckBoxChecked(id, value) {
+    let state = this.state;
+    state.checkBoxes[id].checked = value;
+    this.setState(state);
+  }
+
   cadastro() {
     this.props.navigation.navigate('CadastroCliente');
   }
 
   login() {
     let state = this.state;
-
+    
     if(state.email != '' && state.senha != '') {
 
       firebase.auth().signInWithEmailAndPassword(state.email, state.senha)
@@ -97,17 +107,17 @@ export class Login extends Component {
             <View style={ styles.perfilArea } >
             
               <View style={styles.checkBoxArea} >              
-                <CheckBox  value={ this.state.clienteCheckBox } onValueChange={(valor) => this.setState({clienteCheckBox: valor })} />                 
+                <CheckBox  value={ this.state.checkBoxes[0].checked } onValueChange={(value) => this.setCheckBoxChecked(0, value)} />                 
                 <Text style={ styles.checkBoxText } >Cliente</Text>
               </View>
 
               <View style={styles.checkBoxArea} >
-                <CheckBox  value={ this.state.profCheckBox } onValueChange={(valor) => this.setState({profCheckBox: valor })} />
+                <CheckBox  value={ this.state.checkBoxes[1].checked } onValueChange={(value) => this.setCheckBoxChecked(1, value)} />
                 <Text style={ styles.checkBoxText } >Profissional</Text>
               </View>
 
               <View style={styles.checkBoxArea} >              
-                <CheckBox  value={ this.state.adminCheckBox } onValueChange={(valor) => this.setState({adminCheckBox: valor })} />
+                <CheckBox  value={ this.state.checkBoxes[2].checked } onValueChange={(value) => this.setCheckBoxChecked(2, value)} />
                 <Text style={ styles.checkBoxText } >Administrador</Text>
               </View>
     

@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from '../actions/Types';
+import { CHECK_LOGIN_ERROR, CHECK_CADASTRO_ERROR } from '../actions/types';
 
 const initialState = {
     cpf: 'Cpf',
