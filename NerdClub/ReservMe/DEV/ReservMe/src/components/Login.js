@@ -90,9 +90,9 @@ export class Login extends Component {
             <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
           </View>
 
-          <View style={{alignItems:'center', justifyContent:'center', flexDirection: 'row'}} >
+          <View style={{ alignItems:'center', justifyContent:'center', flexDirection: 'row' }} >
             
-            <Text style={styles.checkBoxText } >Quem é você?</Text>
+            <Text style={ styles.checkBoxText } >Quem é você?</Text>
             
             <View style={ styles.perfilArea } >
             
@@ -212,7 +212,6 @@ const styles = StyleSheet.create({
       margin: 10,
       flexDirection:'column',
       alignItems: 'flex-start', 
-      // justifyContent: 'center',
     },
     checkBoxTextArea: {
        alignItems: 'flex-start', 
@@ -224,7 +223,6 @@ const styles = StyleSheet.create({
     },
     checkBoxArea:  {
       flexDirection: 'row',
-      // alignItems: 'flex-start', 
       justifyContent: 'center' 
     }
 });  

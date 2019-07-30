@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from './FirebaseConnection';
+import TextInputMask from 'react-native-text-input-mask';
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import { checkCadastroError } from '../redux/actions/AuthActions';
@@ -130,17 +131,34 @@ export class CadastroCliente extends Component {
         <ImageBackground source={ require('../assets/images/background/background.png') } style={ styles.background }  >    
             
             <View style={ styles.container } > 
+
                 <View style={ styles.checkBoxArea }>
                     <Text style={{ fontSize: 20, color: '#FFF' }} >Seu perfil é de Cliente</Text>
                     <CheckBox disabled={ true } value={ this.state.clienteCheckBox } />
                 </View>
+
                 <TextInput style={ styles.input } placeholder={ this.props.nome } onChangeText={ (nome) => { this.setState({ nome })} } />               
                 <TextInput style={ styles.input } placeholder={ this.props.email } onChangeText={ (email) => { this.setState({ email })} } />
+                
                 <Picker style = { styles.picker } selectedValue= { this.state.sexo } onValueChange = { (itemValue, itemIndex) => this.setState({ sexo: itemValue }) }>
                     { sexosItem }
                 </Picker>
-                <TextInput style={ styles.input } placeholder={ this.props.cpf } onChangeText={(cpf) => { this.setState({ cpf })} } />             
-                <TextInput style={ styles.input } placeholder={ this.props.celular } onChangeText={(celular) => { this.setState({ celular })} } keyboardType={"numeric"} /> 
+                
+                <TextInputMask
+                    style={ styles.input }
+                    placeholder={ this.props.cpf }
+                    keyboardType={"numeric"}
+                    onChangeText={(cpf) => { this.setState({ cpf })}}
+                    mask={"[000].[000].[000]-[00]"}
+                />
+                 <TextInputMask
+                    style={ styles.input }
+                    placeholder={ this.props.celular }
+                    keyboardType={"numeric"}
+                    onChangeText={(celular) => { this.setState({ celular })}}
+                    mask={"+55 ([00]) 9[0000]-[0000]"}
+                />
+
                 <TextInput style={ styles.input } placeholder={ this.props.senha } secureTextEntry={ true } onChangeText={(senha) => { this.setState({ senha })} } />
                 <TextInput style={ styles.input } placeholder={ this.props.senhaConfirmacao } secureTextEntry={ true } onChangeText={(senhaConfirmacao) => { this.setState({ senhaConfirmacao })} } />                              
                 
