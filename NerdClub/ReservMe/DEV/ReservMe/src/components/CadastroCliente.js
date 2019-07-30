@@ -59,16 +59,68 @@ export class CadastroCliente extends Component {
             { sexo: 'Masculino', value: 'Masculino' },
         ],
         celular: '',
+        errorMessage: '',
         senhaConfirmacao: '',
-        clienteCheckBox: true,
+        isCliente: true,       
     };
     
     this.cadastrar = this.cadastrar.bind(this);
+    // Validações
+    this.validadeCPF = this.validadeCPF.bind(this);
     this.validateNome = this.validateNome.bind(this);
+    this.validateSexo = this.validateSexo.bind(this);
+    this.validateSenha = this.validateSenha.bind(this);
+    this.validadeCelular = this.validadeCelular.bind(this);
+    this.validateCadastro = this.validateCadastro.bind(this);
     
     // Primeiro verifica se tem algum usuario logado, se tiver tira ele
     firebase.auth().signOut();    
   } 
+
+  validateSexo(sexo) {
+    const sex = 0;
+
+    let result = false;
+    if(sexo != sex) {
+        result = true; 
+    }
+
+    return result ;
+  }
+
+  validadeCPF(cpf) {
+    const length = 14;
+
+    let result = false;
+    if(cpf.length == length) {
+        result = true;
+    }
+
+    return result;
+    
+  }
+
+  validadeCelular(celular) {
+    const length = 19;
+
+    let result = false;
+    if(celular.length == 19) {
+        result = true;
+    }
+
+    return result
+  }
+
+  validateSenha(senha, senhaConfirmacao) {    
+    
+    let result = false;
+    if(senha == senhaConfirmacao) {
+        result = true;
+    }
+
+    return result;
+
+  }
 
   validateNome(nome) {
     // Expressão regular que só aceita letras e espaços
@@ -76,23 +128,70 @@ export class CadastroCliente extends Component {
     
     let result = false;
     if(nome.match(pattern)) {
-      result = true
+      result = true;
     }
 
-    return result   
+    return result;  
+  }
+
+  validateCamposEmBranco() {
+    let state = this.state;  
+    let result = false;
+
+    if(state.nome != '' && state.email != '' && state.cpf != '' && state.celular != '' && state.senha != '' && state.senhaConfirmacao != '') {
+        result = true;
+    }
+
+    return result;
+
+  }
+
+  validateCadastro() {
+    let state = this.state;
+    let result = true;
+    message = '';
+    
+    if(!this.validateNome(state.nome) && message == '') {
+        result = false;
+        message = 'auth/invalid-name';        
+    }
+    if(!this.validateSexo(state.sexo) && message == '') {
+        result = false;
+        message = 'auth/invalid-sex';          
+    }
+    if(!this.validadeCPF(state.cpf) && message == '') {
+        result = false;
+        message = 'auth/invalid-cpf';            
+    }
+    if(!this.validadeCelular(state.celular) && message == '') {
+        result = false;
+        message = 'auth/invalid-cell-phone';
+    }
+    if(!this.validateSenha(state.senha, state.senhaConfirmacao) && message == '') {
+        result = false;
+        message = 'auth/different-passwords';
+    }
+
+    state.errorMessage = message;
+    this.setState(state);
+    return result;
   }
 
   cadastrar() {
     let state = this.state;
     
-    if(state.nome != '' && state.email != '') {
+    if(this.validateCamposEmBranco()) {
         // Listener
         firebase.auth().onAuthStateChanged((user) => {
             // Se foi cadastrado com sucesso
             if(user) {
                 // Colocando/conectando esse usuario com o BD
                 firebase.database().ref('usuarios').child(user.uid).set({
-                    nome: state.nome                
+                    nome: state.nome,
+                    sexo: state.sexos[state.sexo].value,
+                    cpf: state.cpf,
+                    celular: state.celular,
+                    cliente: state.isCliente,                                   
                 });
                 // Voltando para tela de Login após o cadastro
                 this.props.navigation.dispatch(StackActions.reset({
@@ -105,14 +204,14 @@ export class CadastroCliente extends Component {
         });
 
         // Se o nome for válido
-        if(this.validateNome(state.nome)) {
+        if(this.validateCadastro()) {
             // Cadastrando no sistema de email e senha
             firebase.auth().createUserWithEmailAndPassword(state.email,state.senha)
             .catch((error) => {
                 this.props.checkCadastroError(error.code)
             })
         } else {
-            this.props.checkCadastroError('auth/invalid-name');
+            this.props.checkCadastroError(state.errorMessage);
         }
         
     }else {
@@ -134,7 +233,7 @@ export class CadastroCliente extends Component {
 
                 <View style={ styles.checkBoxArea }>
                     <Text style={{ fontSize: 20, color: '#FFF' }} >Seu perfil é de Cliente</Text>
-                    <CheckBox disabled={ true } value={ this.state.clienteCheckBox } />
+                    <CheckBox disabled={ true } value={ this.state.isCliente } />
                 </View>
 
                 <TextInput style={ styles.input } placeholder={ this.props.nome } onChangeText={ (nome) => { this.setState({ nome })} } />               

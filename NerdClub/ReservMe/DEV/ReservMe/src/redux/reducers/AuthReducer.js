@@ -42,13 +42,16 @@ const loginErrors = [
 
 const cadastroErrors = [
     
-    { type: 'auth/required',       message: '[ERROR]: Os campos são obrigatórios!' },
-    { type: 'auth/invalid-sex',    message: '[ERROR]: Sexo selecionado inválido!' },
-    { type: 'auth/invalid-name',   message: '[ERROR]: Nome de usuário inválido!' },
-    { type: 'auth/invalid-email',  message: '[ERROR]: Email inválido!' },
-    { type: 'auth/weak-password',  message: '[ERROR]: Sua senha precisa ter no mínimo 6 caracteres!' },
+    { type: 'auth/required',      message: '[ERROR]: Os campos são obrigatórios!' },
+    { type: 'auth/invalid-sex',   message: '[ERROR]: Sexo selecionado inválido!' },
+    { type: 'auth/invalid-name',  message: '[ERROR]: Nome de usuário inválido!' },
+    { type: 'auth/invalid-cpf',   message: '[ERROR]: O CPF fornecido é inválido!' },
+    { type: 'auth/invalid-email', message: '[ERROR]: Email inválido!' },
+    { type: 'auth/weak-password', message: '[ERROR]: Sua senha precisa ter no mínimo 6 caracteres!' },
+    { type: 'auth/invalid-cell-phone',    message: '[ERROR]: Número de celular inválido!' },
     { type: 'auth/email-already-in-use',  message: '[ERROR]: O email fornenido já está sendo usado!' },
-
+    { type: 'auth/different-passwords',   message: '[ERROR]: As senhas fornecidas são diferentes!' },
+    
 ];
 
 function getErrorMessage(errorType, errorsList) {
