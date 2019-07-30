@@ -72,10 +72,10 @@ export class CadastroCliente extends Component {
 
   validateNome(nome) {
     // Expressão regular que só aceita letras e espaços
-    const formato = /^[a-zA-Z \-]+$/;
+    const pattern = /^[a-zA-Z ]+$/;
     
     let result = false;
-    if(nome.match(formato)) {
+    if(nome.match(pattern)) {
       result = true
     }
 
@@ -84,7 +84,7 @@ export class CadastroCliente extends Component {
 
   cadastrar() {
     let state = this.state;
-
+    
     if(state.nome != '' && state.email != '') {
         // Listener
         firebase.auth().onAuthStateChanged((user) => {

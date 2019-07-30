@@ -47,6 +47,7 @@ const cadastroErrors = [
     { type: 'auth/invalid-name',   message: '[ERROR]: Nome de usuário inválido!' },
     { type: 'auth/invalid-email',  message: '[ERROR]: Email inválido!' },
     { type: 'auth/weak-password',  message: '[ERROR]: Sua senha precisa ter no mínimo 6 caracteres!' },
+    { type: 'auth/email-already-in-use',  message: '[ERROR]: O email fornenido já está sendo usado!' },
 
 ];
 
