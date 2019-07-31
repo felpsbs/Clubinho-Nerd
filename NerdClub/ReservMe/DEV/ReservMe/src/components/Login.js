@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { 
     View,
     Text,
+    Modal,
     Image,
     Alert,
     CheckBox,
@@ -15,6 +16,7 @@ import firebase from './FirebaseConnection';
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import { checkLoginError } from '../redux/actions/AuthActions';
+import Error from './Error';
 
 export class Login extends Component {
 
@@ -34,12 +36,15 @@ export class Login extends Component {
         { id: 1, checked: false },
         { id: 2, checked: false}
       ],
+      modalMessage: '',
+      modalVisible: false,
     };
     
     // Funções
     this.login = this.login.bind(this);
     this.cadastro = this.cadastro.bind(this);   
     this.setCheckBoxChecked = this.setCheckBoxChecked.bind(this); 
+    this.fecharModal = this.fecharModal.bind(this);
 
     // Listener
     firebase.auth().onAuthStateChanged((user) => {
@@ -57,6 +62,12 @@ export class Login extends Component {
     
   } 
 
+  fecharModal() {
+    let state = this.state;
+    state.modalVisible = false;
+    this.setState(state);
+  }
+
   setCheckBoxChecked(id, value) {
     let state = this.state;
     state.checkBoxes[id].checked = value;
@@ -73,12 +84,18 @@ export class Login extends Component {
     if(state.email != '' && state.senha != '') {
 
       firebase.auth().signInWithEmailAndPassword(state.email, state.senha)
-      .catch((error) => {        
-        this.props.checkLoginError(error.code); 
+      .catch((error) => {  
+        state.modalVisible = true;
+        state.modalMessage = error.code;
+        this.setState(state);      
+        // this.props.checkLoginError(error.code); 
       });
 
     }else {
-      this.props.checkLoginError('auth/required');
+      state.modalVisible = true;
+      state.modalMessage = 'auth/required';
+      this.setState(state);
+      // this.props.checkLoginError('auth/required');
     }
     
   } 
@@ -133,7 +150,13 @@ export class Login extends Component {
               <Text style={ styles.txtCadastrar } >Ainda não possui uma conta?</Text>
             </TouchableHighlight>
           </View>   
-            
+
+          <Modal animationType='slide' visible={ this.state.modalVisible } transparent={ true } >
+            <View style={ styles.modalArea } >
+              <Error fechar={ () => this.fecharModal(false) } message={ this.state.modalMessage }/>
+            </View>            
+          </Modal>  
+          
         </View>
 
       </ImageBackground>
@@ -144,104 +167,111 @@ export class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-      justifyContent: 'center'
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center'
+  },
+  input: {
+    width: 300,       
+    height: 50,   
+    margin: 5,             
+    padding: 5,
+    fontSize: 22,
+    backgroundColor: '#FFFFFF',
+  },
+  background:{
+    flex: 1,
+    width: null
+  },
+  btnArea: {        
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  btnEntrar: {
+    width: 130,
+    height: 40,         
+    alignItems: 'center',
+    borderRadius: 5,        
+    justifyContent: 'center',
+    backgroundColor: '#C75767',
+  },
+  txtEntrar: {
+    color: '#FFFFFF',
+    fontSize: 15
+  },
+  txtCadastrar: {
+    color: '#FFFFFF',
+    fontSize: 15
+  },
+  logoArea: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginTop: 60,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
-    input: {
-      width: 300,       
-      height: 50,   
-      margin: 5,             
-      padding: 5,
-      fontSize: 22,
-      backgroundColor: '#FFFFFF',
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    
+  },
+  appTitle: {
+    color: '#FFFFFF',
+    fontSize: 35,
+    marginTop: 40,
+    textAlign: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
-    background:{
-      flex: 1,
-      width: null
-    },
-    btnArea: {        
-      marginTop: 10,
-      alignItems: 'center',
-    },
-    btnEntrar: {
-      width: 130,
-      height: 40,         
-      alignItems: 'center',
-      borderRadius: 5,        
-      justifyContent: 'center',
-      backgroundColor: '#C75767',
-    },
-    txtEntrar: {
-      color: '#FFFFFF',
-      fontSize: 15
-    },
-    txtCadastrar: {
-      color: '#FFFFFF',
-      fontSize: 15
-    },
-    logoArea: {
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    logo: {
-      width: 100,
-      height: 100,
-      marginTop: 60,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.30,
-      shadowRadius: 4.65,
-      
-    },
-    appTitle: {
-      color: '#FFFFFF',
-      fontSize: 35,
-      marginTop: 40,
-      textAlign: 'center',
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.30,
-      shadowRadius: 4.65,
-    },
-    inputArea: {
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    btnCadastrarAre: {
-      marginTop: 15
-    },
-    perfilArea: {
-      margin: 10,
-      flexDirection:'column',
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+  },
+  inputArea: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  btnCadastrarAre: {
+    marginTop: 15
+  },
+  perfilArea: {
+    margin: 10,
+    flexDirection:'column',
+    alignItems: 'flex-start', 
+  },
+  checkBoxTextArea: {
       alignItems: 'flex-start', 
-    },
-    checkBoxTextArea: {
-       alignItems: 'flex-start', 
-       justifyContent: 'center' 
-    },
-    checkBoxText: {
-      color: '#FFF',
-      fontSize: 18, 
-    },
-    checkBoxArea:  {
-      flexDirection: 'row',
       justifyContent: 'center' 
-    }
+  },
+  checkBoxText: {
+    color: '#FFF',
+    fontSize: 18, 
+  },
+  checkBoxArea:  {
+    flexDirection: 'row',
+    justifyContent: 'center' 
+  },
+  modalArea: {
+    flex: 1,
+    margin: 15,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });  
 
 // Pegando o que está na store 
 const mapStateToProps = (state) => {
   return {
     email: state.auth.email,
-    senha: state.auth.senha
+    senha: state.auth.senha,
+    errorMessage: state.auth.errorMessage
   };
 };
 
