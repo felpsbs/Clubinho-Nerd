@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { 
     View,
     Text,
+    Modal,
     Image,
     Picker,
     CheckBox,
@@ -16,6 +17,7 @@ import TextInputMask from 'react-native-text-input-mask';
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import { checkCadastroError } from '../redux/actions/AuthActions';
+import Error from './Error';
 
 export class CadastroCliente extends Component {
 
@@ -59,12 +61,15 @@ export class CadastroCliente extends Component {
             { sexo: 'Masculino', value: 'Masculino' },
         ],
         celular: '',
-        errorMessage: '',
+        isCliente: true, 
+        modalMessage: '',
+        modalVisible: false,
         senhaConfirmacao: '',
-        isCliente: true,       
+             
     };
     
     this.cadastrar = this.cadastrar.bind(this);
+    this.fecharModal = this.fecharModal.bind(this);
     // Validações
     this.validadeCPF = this.validadeCPF.bind(this);
     this.validateNome = this.validateNome.bind(this);
@@ -76,6 +81,12 @@ export class CadastroCliente extends Component {
     // Primeiro verifica se tem algum usuario logado, se tiver tira ele
     firebase.auth().signOut();    
   } 
+
+  fecharModal() {
+    let state = this.state;
+    state.modalVisible = false;
+    this.setState(state);
+  }
 
   validateSexo(sexo) {
     const sex = 0;
@@ -172,7 +183,7 @@ export class CadastroCliente extends Component {
         message = 'auth/different-passwords';
     }
 
-    state.errorMessage = message;
+    state.modalMessage = message;
     this.setState(state);
     return result;
   }
@@ -208,14 +219,23 @@ export class CadastroCliente extends Component {
             // Cadastrando no sistema de email e senha
             firebase.auth().createUserWithEmailAndPassword(state.email,state.senha)
             .catch((error) => {
-                this.props.checkCadastroError(error.code)
+                state.modalVisible = true;
+                state.modalMessage = error.code;
+                this.setState(state);
+                // this.props.checkCadastroError(error.code)
             })
         } else {
-            this.props.checkCadastroError(state.errorMessage);
+            state.modalVisible = true;
+            state.modalMessage = state.modalMessage;
+            this.setState(state);
+            // this.props.checkCadastroError(state.errorMessage);
         }
         
     }else {
-        this.props.checkCadastroError('auth/required');
+        state.modalVisible = true;
+        state.modalMessage = 'auth/required';
+        this.setState(state);
+        // this.props.checkCadastroError('auth/required');
     }
      
   } 
@@ -266,6 +286,12 @@ export class CadastroCliente extends Component {
                         <Text style={ styles.txtCadastrar } >CADASTRAR</Text>
                     </TouchableHighlight>  
                 </View>
+
+                <Modal animationType='slide' visible={ this.state.modalVisible } transparent={ true } >
+                    <View style={ styles.modalArea } >
+                        <Error fechar={ () => this.fecharModal(false) } message={ this.state.modalMessage }/>
+                    </View>            
+                </Modal>  
                 
             </View>
 
@@ -323,6 +349,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center',  
+    },
+    modalArea: {
+        flex: 1,
+        margin: 15,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 
 });  
