@@ -32,20 +32,21 @@ export default class Error extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: 350,
+        width: '90%',
+        height: 300,
         borderRadius: 15,
         alignItems: 'center',
         backgroundColor: '#292929',        
     },   
     erroMessage: {
         color: '#FFFFFF',
-        fontSize: 30,
+        fontSize: 23,
         marginTop: 50,
         textAlign: 'center'       
     },
     botao: {
-        width: '100%',
+        marginTop: 100,
+        width: '50%',
         height: 40,      
         alignItems: 'center',
         borderRadius: 5,        
@@ -56,4 +57,4 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 15
     },
-});
+});    

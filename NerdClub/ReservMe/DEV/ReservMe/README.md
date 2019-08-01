@@ -1,7 +1,7 @@
 # ReservMe
 <!--------------------- TAGS  -------------------------------->
-[![GitHub last commit](https://img.shields.io/github/last-commit/thefelipeBrandao/Clubinho-Nerd.svg)](https://github.com/thefelipeBrandao/Clubinho-Nerd/commits/master)
-[![GitHub last commit](https://img.shields.io/github/contributors/thefelipeBrandao/Clubinho-Nerd.svg)](https://github.com/thefelipeBrandao/Clubinho-Nerd/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/felpsbs/Clubinho-Nerd.svg)](https://github.com/felpsbs/Clubinho-Nerd/commits/master)
+[![GitHub last commit](https://img.shields.io/github/contributors/felpsbs/Clubinho-Nerd.svg)](https://github.com/felpsbs/Clubinho-Nerd/graphs/contributors)
 
 ## Dependências
 
