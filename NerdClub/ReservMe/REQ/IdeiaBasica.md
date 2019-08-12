@@ -22,6 +22,8 @@
 - O usuário deverá ter um cadastro para conseguir entrar no app
 	- Login/email
 	- Senha
+	
+- Nop histórico será apresentado as ultimas consultas, mostrando procedimentos feitose e o valor total da consulta com um botão que permite visualizar a soma(mostrando valor de cada procedimento e total do dia).
 
 - **Cadastro Usuário**
 	- Nome
