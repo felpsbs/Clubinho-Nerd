@@ -4,10 +4,10 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import Login from './src/components/Login';
-import CadastroCliente from './src/components/CadastroCliente';
-import Reducers from './src/redux/store/Reducers';
-import HomeContainer from './src/components/HomeContainer';
+import Login from './pages/Login';
+import CadastroCliente from './pages/CadastroCliente';
+import Reducers from './redux/store/Reducers';
+import HomeContainer from './components/HomeContainer';
 
 // Armazana todos os Reducers
 let store = createStore(Reducers);

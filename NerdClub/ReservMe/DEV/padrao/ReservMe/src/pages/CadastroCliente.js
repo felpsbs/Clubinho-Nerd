@@ -12,12 +12,17 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from './FirebaseConnection';
+import firebase from '../components/FirebaseConnection';
 import TextInputMask from 'react-native-text-input-mask';
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import { checkCadastroError } from '../redux/actions/AuthActions';
-import Error from './Error';
+import Error from '../components/Error';
+
+// Images
+import background from '../assets/images/background/background.png';
+import logo from '../assets/images/logo/logo_branca_transparente.png';
+import leftArrow from '../assets/images/icons/left-arrow.png';
 
 export class CadastroCliente extends Component {
 
@@ -26,7 +31,7 @@ export class CadastroCliente extends Component {
     headerRight: (
         <Image 
             style={{ width: 40, height: 40, marginRight: 10 }} 
-            source={ require('../assets/images/logo/logo_branca_transparente.png') } 
+            source={ logo } 
         />
     ),
     headerStyle: {
@@ -41,7 +46,7 @@ export class CadastroCliente extends Component {
     headerBackImage: (
         <Image 
             style={{  width: 25, height: 25 }} 
-            source={ require('../assets/images/icons/left-arrow.png') }
+            source={ leftArrow }
         />
     )
   };
@@ -247,7 +252,7 @@ export class CadastroCliente extends Component {
     });
 
     return(    
-        <ImageBackground source={ require('../assets/images/background/background.png') } style={ styles.background }  >    
+        <ImageBackground source={ background } style={ styles.background }  >    
             
             <View style={ styles.container } > 
 

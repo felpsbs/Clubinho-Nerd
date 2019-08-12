@@ -7,24 +7,29 @@ import {
     TouchableHighlight
 } from 'react-native'; 
 
+// Images
+import background from '../assets/images/background/background.png';
+import homeAtivo from '../assets/images/icons/home_ativo.png';
+import menuIcon from '../assets/images/icons/menu.png';
+
 export default class Home extends Component {
 
     static navigationOptions = {
         drawerLabel: 'Home',
         drawerIcon: ({ tintColor }) => (
-            <Image source={ require('../assets/images/icons/home_ativo.png') } style={ [styles.menuIcon, { tintColor:tintColor }] } />
+            <Image source={ homeAtivo } style={ [styles.menuIcon, { tintColor:tintColor }] } />
         ),
     };
 
     render() {
 
         return(
-            <ImageBackground source={ require('../assets/images/background/bluebackground.png') } style={ styles.background }  >
+            <ImageBackground source={ background } style={ styles.background }  >
             
                 <View style={ styles.container } > 
 
                     <TouchableHighlight onPress={ () => this.props.navigation.toggleDrawer() } style={ styles.btnMenu } underlayColor='transparent'>
-                        <ImageBackground source={require('../assets/images/icons/menu.png')} resizeMode='cover' style={ styles.menuIcon } />
+                        <ImageBackground source={ menuIcon } resizeMode='cover' style={ styles.menuIcon } />
                     </TouchableHighlight>                                 
 
                 </View>

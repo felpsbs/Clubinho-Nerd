@@ -3,7 +3,7 @@ import {
     createDrawerNavigator 
 } from 'react-navigation';
   
-import Home from './Home';
+import Home from '../pages/Home';
 import CustomDrawer from './CustomDrawer';
 
 const Navigator = createDrawerNavigator({
@@ -16,9 +16,9 @@ const Navigator = createDrawerNavigator({
   contentComponent: CustomDrawer,
   // Pagina inicial
   initialRouteName: 'Home',
-  drawerBackgroundColor: '#373737',
+  drawerBackgroundColor: '#242F65',
   contentOptions: {
-      activeTintColor: '#24C2CB',
+      activeTintColor: '#FFF',
       labelStyle: {
         fontSize: 20
       }

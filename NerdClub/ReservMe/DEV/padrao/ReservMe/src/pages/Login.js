@@ -12,11 +12,16 @@ import {
     TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from './FirebaseConnection';
+import firebase from '../components/FirebaseConnection';
 import { NavigationActions, StackActions } from 'react-navigation';
 
 import { checkLoginError } from '../redux/actions/AuthActions';
-import Error from './Error';
+import Error from '../components/Error';
+
+// Images
+import background from '../assets/images/background/background.png';
+import logo from '../assets/images/logo/logo_branca_transparente.png';
+
 
 export class Login extends Component {
 
@@ -120,11 +125,11 @@ export class Login extends Component {
   render() { 
 
     return(      
-      <ImageBackground source={ require('../assets/images/background/background.png') } style={ styles.background }  >                  
+      <ImageBackground source={ background } style={ styles.background }  >                  
               
         <View style={ styles.logoArea } >
           <Text style={ styles.appTitle } >ReservMe</Text>
-          <Image source={require('../assets/images/logo/logo_branca_transparente.png')} style={ styles.logo } />
+          <Image source={ logo } style={ styles.logo } />
         </View>
 
         <View style={ styles.container } >   
