@@ -9,9 +9,8 @@ module.exports = {
         return hashPassword;
     },
 
-    // async comparePassword(inputPassword, hashedPassword) {
-    //     const match = await bcrypt.compare(inputPassword, hashedPassword);
-    //     return match;
-    // }
+    comparePassword(inputPassword, hashedPassword) {
+        return bcrypt.compare(inputPassword, hashedPassword);
+    }
 
 }

@@ -7,7 +7,7 @@ module.exports = {
         const client = request.body;
 
         // Verificando se o cliente já está cadastrado
-        const clientExists = await Client.findOne({ email: client.email })
+        const clientExists = await Client.findOne({ email: client.email });
         if(clientExists) {
             return reply.status(400).json({ code: 400, message: 'Client already exists' });
         }
@@ -19,7 +19,7 @@ module.exports = {
         }
 
         // Criptografando a senha do cliente
-        var hashedPassword = bcrypt.setHashPassword(client.password);
+        var hashedPassword  = bcrypt.setHashPassword(client.password);
 
         // Cadastrando o cliente
         await Client.create({
@@ -29,6 +29,7 @@ module.exports = {
             cpf: client.cpf,
             phone: client.phone,
             password: hashedPassword,
+            perfil: client.perfil,
             status: true 
         });     
         

@@ -112,5 +112,21 @@ module.exports = {
         }
 
         return { result: result, message: message };
+    },
+
+    validateLogin(body) {
+        let result = true;
+        let message = '';
+
+        if(!this.validateEmail(body.email) && message == '') {
+            result = false;
+            message = 'auth/invalid-email';        
+        }
+        if(!this.validatePassword(body.password) && message == '') {
+            result = false;
+            message = 'auth/invalid-password';        
+        }
+
+        return { result: result, message: message };
     }
 }

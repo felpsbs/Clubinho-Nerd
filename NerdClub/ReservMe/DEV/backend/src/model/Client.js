@@ -25,6 +25,10 @@ const ClientSchema = new Schema({
         type: String,
         required: true
     },
+    perfil: {
+        type: String,
+        required: true
+    },
     status: {
         type: Boolean,
         required: true,

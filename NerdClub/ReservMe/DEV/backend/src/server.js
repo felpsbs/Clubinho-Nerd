@@ -8,7 +8,7 @@ const routes = require('./routes');
 const server = express();
 
 // Conexão com o Banco
-mongoose.connect('', {
+mongoose.connect('mongodb+srv://admin:admin@cluster0-lxjlx.mongodb.net/reservme?retryWrites=true&w=majority', {
     useNewUrlParser: true
 })
 
