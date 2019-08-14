@@ -1,3 +1,4 @@
+const http = require('./http')
 
 module.exports = {
 
@@ -84,31 +85,38 @@ module.exports = {
         
         if(!this.validateName(body.name) && message == '') {
             result = false;
-            message = 'auth/invalid-name';        
+            // message = 'auth/invalid-name'; 
+            message = http.clientBadResponses['invalid-name'];       
         }
         if(!this.validateSex(body.sex) && message == '') {
             result = false;
-            message = 'auth/invalid-sex';          
+            // message = 'auth/invalid-sex';       
+            message = http.clientBadResponses['invalid-sex'];     
         }
         if(!this.validateEmail(body.email) && message == '') {
             result = false;
-            message = 'auth/invalid-email';        
+            // message = 'auth/invalid-email';   
+            message = http.clientBadResponses['invalid-email'];     
         }
         if(!this.validadeCPF(body.cpf) && message == '') {
             result = false;
-            message = 'auth/invalid-cpf';            
+            // message = 'auth/invalid-cpf';  
+            message = http.clientBadResponses['invalid-cpf'];          
         }
         if(!this.validadePhone(body.phone) && message == '') {
             result = false;
-            message = 'auth/invalid-cell-phone';
+            // message = 'auth/invalid-cell-phone';
+            message = http.clientBadResponses['invalid-phone'];
         }
         if(!this.validatePassword(body.password) && message == '') {
             result = false;
-            message = 'auth/invalid-password';        
+            // message = 'auth/invalid-password';   
+            message = http.clientBadResponses['invalid-password'];     
         }
         if(!this.validatePasswordConfirmed(body.password, body.passwordConfirmed) && message == '') {
             result = false;
-            message = 'auth/different-password';        
+            // message = 'auth/different-password';       
+            message = http.clientBadResponses['different-password'];  
         }
 
         return { result: result, message: message };
@@ -120,11 +128,13 @@ module.exports = {
 
         if(!this.validateEmail(body.email) && message == '') {
             result = false;
-            message = 'auth/invalid-email';        
+            // message = 'auth/invalid-email';    
+            message = http.clientBadResponses['invalid-email'];     
         }
         if(!this.validatePassword(body.password) && message == '') {
             result = false;
-            message = 'auth/invalid-password';        
+            // message = 'auth/invalid-password'; 
+            message = http.clientBadResponses['invalid-password'];        
         }
 
         return { result: result, message: message };

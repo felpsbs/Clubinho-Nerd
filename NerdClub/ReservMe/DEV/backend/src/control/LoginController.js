@@ -1,7 +1,7 @@
 const Client = require('../model/Client');
 const validator = require('../validation');
-const b = require('../password');
-const bcrypt = require('bcrypt');
+const bcrypt = require('../clientPassword');
+const http = require('../http');
 
 module.exports = {
     async store(request, reply) {
@@ -10,24 +10,22 @@ module.exports = {
         // Validando os dados 
         var { result, message } = validator.validateLogin(client);
         if(!result) {
-            return reply.status(400).json({ code: 400, message: message });
+            return reply.status(400).json(message);
         }
-
+        // Procurando um cliente com o email informado
         const clientExists = await Client.findOne({ email: client.email, perfil: client.perfil, status: true });   
         
         let match = false; 
         if(clientExists !== null) {
-
-            await bcrypt.compare(client.password, clientExists.password).then((valor) => {
-                match = valor;
-            });
-   
+            // Comparando as senhas
+            match = await bcrypt.comparePassword(client.password, clientExists.password);
         }
 
+        // Se as senhas não forem iguais
         if(!match) {
-            return reply.status(400).json({ code: 400, message: 'Invalid email/password' });
+            return reply.status(400).json(http.clientBadResponses['invalid-email-or-password']);
         }
-  
-        return reply.json({ code: 200, message: 'OK' });
+
+        return reply.json(http.responses['success']);
     }
 };

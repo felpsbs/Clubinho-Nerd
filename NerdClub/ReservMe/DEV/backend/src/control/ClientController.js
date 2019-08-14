@@ -1,6 +1,7 @@
 const Client = require('../model/Client');
 const validator = require('../validation');
-const bcrypt = require('../password');
+const bcrypt = require('../clientPassword');
+const http = require('../http');
 
 module.exports = {
     async store(request, reply) {
@@ -9,13 +10,13 @@ module.exports = {
         // Verificando se o cliente já está cadastrado
         const clientExists = await Client.findOne({ email: client.email });
         if(clientExists) {
-            return reply.status(400).json({ code: 400, message: 'Client already exists' });
+            return reply.status(400).json(http.clientBadResponses['client-already-exist']);
         }
 
         // Validando os campos digitados para o cadastro
         const { result, message } = validator.validateSignUp(client);
         if(!result) {
-            return reply.status(400).json({ code: 400, message: message });
+            return reply.status(400).json(message);
         }
 
         // Criptografando a senha do cliente
@@ -33,6 +34,6 @@ module.exports = {
             status: true 
         });     
         
-        return reply.json({ code: 200, message: 'OK' });
+        return reply.json(http.responses['success']);
     }
 };

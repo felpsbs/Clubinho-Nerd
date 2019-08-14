@@ -14,3 +14,7 @@ module.exports = {
     }
 
 }
+
+// await bcrypt.compare(client.password, clientExists.password).then((valor) => {
+//     match = valor;
+// });
