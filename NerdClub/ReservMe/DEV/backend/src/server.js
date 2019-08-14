@@ -1,16 +1,15 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 
 const routes = require('./routes');
-
-// Criando o servidor
-const server = express();
+const database = require('./database');
 
 // Conexão com o Banco
-mongoose.connect('', {
-    useNewUrlParser: true
-})
+database.startConnection();
+
+// Criando o servidor
+console.log('[DEBUG]: Starting server...');
+const server = express();
 
 server.use(cors());
 server.use(express.json());
