@@ -4,9 +4,7 @@ module.exports = {
  
     setHashPassword(password) {
         var salt = bcrypt.genSaltSync(10);
-        var hashPassword = bcrypt.hashSync(password, salt);
-        
-        return hashPassword;
+        return bcrypt.hashSync(password, salt);
     },
 
     comparePassword(inputPassword, hashedPassword) {
@@ -14,7 +12,3 @@ module.exports = {
     }
 
 }
-
-// await bcrypt.compare(client.password, clientExists.password).then((valor) => {
-//     match = valor;
-// });
