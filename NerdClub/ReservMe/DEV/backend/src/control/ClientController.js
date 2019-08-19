@@ -10,13 +10,13 @@ module.exports = {
         // Verificando se o cliente já está cadastrado
         const clientExists = await Client.findOne({ email: client.email });
         if(clientExists) {
-            return reply.status(400).json(http.clientBadResponses['client-already-exist']);
+            return reply.json(http.clientBadResponses['client-already-exist']);
         }
 
         // Validando os campos digitados para o cadastro
         const { result, message } = validator.validateSignUp(client);
         if(!result) {
-            return reply.status(400).json(message);
+            return reply.json(message);
         }
 
         // Criptografando a senha do cliente
@@ -35,5 +35,16 @@ module.exports = {
         });     
         
         return reply.json(http.responses['success']);
-    }
+    },
+
+    async getUserByEmail(request, reply) {
+        const { email } = request.headers;
+
+        const client = await Client.findOne({ email: email });
+        if(!client) {
+            return reply.json(http.responses['not-found']);
+        }
+
+        return reply.json({ code: 200, user: client._id, name: client.name });
+    } 
 };

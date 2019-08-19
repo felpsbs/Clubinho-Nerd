@@ -1,5 +1,7 @@
 const http = require('./http')
 
+const result = false;
+
 module.exports = {
 
     validateName(name) {
@@ -79,6 +81,15 @@ module.exports = {
         return result;    
     },
 
+    validadePerfil(perfil) {
+        let result = true;
+        if(perfil == '') {
+            result = false;
+        }
+    
+        return result;
+    },
+
     validateSignUp(body) {
         let result = true;
         message = '';
@@ -126,6 +137,10 @@ module.exports = {
         if(!this.validatePassword(body.password) && message == '') {
             result = false;
             message = http.clientBadResponses['invalid-password'];        
+        }
+        if(!this.validadePerfil(body.perfil) && message == '') {
+            result = false;
+            message = http.clientBadResponses['invalid-perfil'];        
         }
 
         return { result: result, message: message };

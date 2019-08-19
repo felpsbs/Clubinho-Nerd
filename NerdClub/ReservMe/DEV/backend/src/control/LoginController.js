@@ -5,12 +5,12 @@ const http = require('../http');
 
 module.exports = {
     async store(request, reply) {
-        const client = request.body;
-
+        const client = request.body; 
+        
         // Validando os dados 
         var { result, message } = validator.validateLogin(client);
         if(!result) {
-            return reply.status(400).json(message);
+            return reply.json(message);
         }
         // Procurando um cliente com o email informado
         const clientExists = await Client.findOne({ email: client.email, perfil: client.perfil, status: true });   
@@ -23,9 +23,9 @@ module.exports = {
 
         // Se as senhas não forem iguais
         if(!match) {
-            return reply.status(400).json(http.clientBadResponses['invalid-email-or-password']);
+            return reply.json(http.clientBadResponses['invalid-email-or-password']);
         }
 
-        return reply.json(http.responses['success']);
+        return reply.json({ code: 200, user: clientExists._id, name: clientExists.name });
     }
 };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     View,
     Text,
@@ -7,59 +7,44 @@ import {
     StyleSheet,
     TouchableHighlight
 } from 'react-native';
-import { StackActions, NavigationActions, DrawerItems } from 'react-navigation';
-import firebase from './FirebaseConnection';
+import { DrawerItems } from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default class CustomDrawer extends Component {
+import perfilIcon from '../assets/images/icons/perfil.png';
 
-  constructor(props) {
-    super(props);
+const CustomDrawer = props => { 
 
-    this.state = {
-        username: ''
-    };
+    const [username, setUsername] = useState('');
 
-    // Pegando as informações do usuário logado
-    let userUID = firebase.auth().currentUser.uid;
-    firebase.database().ref('usuarios').child(userUID).on('value', (snapshot) => {
-        let state = this.state;
-        state.username = snapshot.val().nome;
-    });
-    
-    this.logout = this.logout.bind(this);
+    useEffect(() => {
+        AsyncStorage.getItem('username').then(username => {
+            if(username) {
+                setUsername(username);
+            }
+        })
+    }, []);
 
-  }
-
-  logout() {
-    firebase.auth().signOut();
-    this.props.navigation.dispatch(StackActions.reset({
-        index: 0,
-        actions: [
-            NavigationActions.navigate({ routeName: 'Login' })
-        ]
-    }));
-  }
-    
-  render() { 
+    async function logout() {
+        await AsyncStorage.clear();
+        props.navigation.navigate('Login');
+    }
 
     return(    
         <View style={ styles.container } >
             <View style={ styles.perfilArea }>
-                <Image source={ require('../assets/images/icons/perfil.png') } style={ styles.perfilImg } />
-                <Text style={ styles.username } >{ this.state.username }</Text>
+            <Image source={ perfilIcon } style={ styles.perfilImg } />
+                <Text style={ styles.username } >{ username }</Text>
             </View>
             <ScrollView style={{ margin: 5 }} >
-                <DrawerItems { ...this.props } />
+                <DrawerItems {...props} />
             </ScrollView>
             <View style={ styles.btnArea } >
-                <TouchableHighlight style={ styles.btnSair } onPress={ this.logout } underlayColor='transparent' >
+                <TouchableHighlight style={ styles.btnSair } onPress={ logout } underlayColor='transparent' >
                     <Text style={ styles.txtSair } >SAIR</Text>
                 </TouchableHighlight>  
             </View>
         </View>
     );
-  }
-
 }
 
 const styles = StyleSheet.create({
@@ -97,3 +82,5 @@ const styles = StyleSheet.create({
     }
     
 });  
+
+export default CustomDrawer;
